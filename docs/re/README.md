@@ -12,4 +12,9 @@ Addresses are for the dump in `rom.sha1` unless a note says otherwise.
 
 | File | Covers | State |
 |---|---|---|
-| <text.md> | <encoding, control codes, pointer tables> | <verified / partly guessed> |
+| [rom.md](rom.md) | header, mapping, bank layout, free-space candidates | header verified, free space candidates only |
+| [text.md](text.md) | encoding, control codes, script VM, text pointers, text free space | verified (op meanings partly guessed) |
+| [font.md](font.md) | dialogue 16x11 font, 8x8 font, HUD font | verified |
+| [compression.md](compression.md) | graphics/tilemap codec, asset directory, block locations | verified |
+| [graphics.md](graphics.md) | graphics-text survey (tour + static sweep) | see file |
+| [prior-work.md](prior-work.md) | earlier patches and documentation | searched |

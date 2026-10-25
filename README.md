@@ -1,7 +1,7 @@
 # Battle Zeque Den English translation
 
-Unofficial English fan translation of **Battle Zeque Den** (Super Famicom, Asmik): the source text and tools
-that build the patch. Work in progress.
+Unofficial English fan translation of **Battle Zeque Den** (バトルゼクウ伝; Super Famicom, 1994; developed by Arsys
+Software, published by Asmik): the source text and tools that build the patch. Work in progress.
 
 **Just want to play?** Download the patch from [Releases](../../releases) and follow its README. This repository holds
 no game data you can play; you need your own dump of the Japanese game.
