@@ -10,7 +10,12 @@
   compressed chains, no graphics in the sweep; likely sound/level data), $8F-$95 compressed stage chains
   (0x78781-0xAE6E7), $96-$AF raw sprite graphics (DMA'd from ROM). (layout from the sweep and traces)
 
-## Free-space candidates (runs of 00, >= 256 bytes; none trap-tested yet)
+## Free-space candidates (runs of 00, >= 256 bytes)
+
+**Trap-tested (phase 5):** `tools/lua/trap.lua` over all 62 warps (`warp_all.py --out trap --lua tools/lua/trap.lua
+--var "ROM_TRAPS={{0x1DB7A,0x1FFFF},{0x657B,0x7FBF}}" --var "RAM_TRAPS={{0x7FFE00,0x7FFFFF}}"`) on the original
+ROM: no read of either ROM range; the only write to `$7F:FE00-FFFF` is the boot WRAM clear (`$80:8125`, frame 23).
+In use: `$80:E580+` VWF code, `$83:DB7A+` overflow text, `$7F:FF00-FF13` VWF scratch. The rest are untested.
 
 | File range | CPU | Bytes |
 |---|---|---|

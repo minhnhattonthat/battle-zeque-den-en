@@ -8,15 +8,20 @@ Areas (docs/re/text.md, graphics.md):
     pointer ($83:BE33 VM) moved to its string's new address;
   - prologue, Shift-JIS inline in a bank-$82 sequence script at 0x10D0C (no pointer: must fit its slot);
   - G3/G4/G5 tile blocks (asset directory entries 13/11/9), lz codec; an unchanged block keeps its original bytes.
-With no edits the output is byte-identical to the original (tests/test_build.py, the identity build).
+build(orig, identity=True) (tests/test_build.py): jp text, no engine patch -> byte-identical to the original.
+The real build: the VWF (asm/vwf.asm, fonts/vwf.txt via tools/font.py, assembled with tools/asar/asar.exe) and
+tbl/en.tbl; a dialogue entry with no LANG text gets a marker line "[id] p.l The quick brown fox..." per line of its
+jp text (the marker build), so every box shows which string it is.
 """
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
 import bps
 import check_rom
+import font
 import lz
 import script_vm
 from dump_assets import entries
@@ -27,10 +32,18 @@ ROM = ROOT / "rom" / "Battle Zeque Den (Japan).sfc"
 OUT = ROOT / "build" / "bzd_en.sfc"
 TBL = ROOT / "tbl" / "jp.tbl"
 SCRIPT = ROOT / "script"
+ASAR = ROOT / "tools" / "asar" / "asar.exe"  # asar 1.91, github.com/RPGHacker/asar/releases (gitignored)
+ASM = ROOT / "asm" / "vwf.asm"
 LANG = "en"  # text field read from script/*.json; empty -> the jp text
 TEXT_LO, TEXT_HI = 0x1AA38, 0x1BE33
+TEXT_FREE = (0x1DB7A, 0x20000)  # bank $83 free space, trap-tested (docs/re/rom.md); text must stay in bank $83
 PROLOGUE_LO = 0x10D0C
 GFX = {"G5": 9, "G4": 11, "G3": 13}  # directory entry whose tile block holds Japanese lettering
+BUF_PX = {"profile": 128}  # text buffer row width in px (asm/vwf.asm); others 23 tiles
+FILLER = "The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. "
+# glyph torture line (every printable ASCII + double spaces), shown instead of the marker of entry AA38 (ch1_h0)
+TORTURE = {"AA38": "!\"#$%&'()*+,-./0123456789:;<=>?@{n}ABCDEFGHIJKLMNOPQRSTUVWXYZ{n}"
+                   "[\\]^_` abcdefghijklmnopq{n}rstuvwxyz{|}~  x  y  z{end}"}
 
 
 def load(name):
@@ -48,17 +61,25 @@ def unpack_text(rom, t):
     return out
 
 
-def pack_text(rom, texts, t):
-    """Write the strings back to back from TEXT_LO and point every script op at its string's new address."""
+def pack_text(rom, texts, t, regions=((TEXT_LO, TEXT_HI),)):
+    """Write the strings back to back, filling each region (file ranges in bank $83) in turn, and point every
+    script op at its string's new address. Unused bytes of each region become 00."""
     refs = script_vm.text_pointers(rom)
-    block, new = bytearray(), {}
+    regions = [list(r) for r in regions]
+    for lo, hi in regions:
+        rom[lo:hi] = bytes(hi - lo)
+    new, ri = {}, 0
     for addr, text in texts.items():
-        new[addr] = TEXT_LO + len(block) - script_vm.BANK
-        block += t.encode(text)
-    if len(block) > TEXT_HI - TEXT_LO:
-        raise SystemExit(f"text block {len(block)} bytes, slot holds {TEXT_HI - TEXT_LO}")
-    rom[TEXT_LO:TEXT_LO + len(block)] = block
-    rom[TEXT_LO + len(block):TEXT_HI] = bytes(TEXT_HI - TEXT_LO - len(block))
+        b = t.encode(text)
+        while regions[ri][0] + len(b) > regions[ri][1]:
+            ri += 1
+            if ri == len(regions):
+                raise SystemExit(f"text does not fit: {sum(len(t.encode(x)) for x in texts.values())} bytes, "
+                                 f"regions hold {sum(hi - lo for lo, hi in regions)}")
+        lo = regions[ri][0]
+        rom[lo:lo + len(b)] = b
+        new[addr] = lo - script_vm.BANK
+        regions[ri][0] += len(b)
     for addr, uses in refs.items():
         for _, at in uses:
             rom[script_vm.BANK + at + 1:script_vm.BANK + at + 3] = new[addr].to_bytes(2, "little")
@@ -119,17 +140,73 @@ def pack_gfx(rom, orig, tiles):
         rom[start:start + len(blk)] = blk
 
 
-def build(orig):
-    t = Table.load(TBL)
+def marker(e, adv, full):
+    """Marker text for an untranslated entry: one line per jp line, "[id] page.line" + filler, keeping the
+    jp page/line breaks and effect codes. full: fill each line to the buffer width (box-width measuring),
+    else a short filler (all 401 lines at full width would not fit the text space)."""
+    width = BUF_PX.get(e["box"], 184)
+    pages = []
+    for p, page in enumerate(e["jp"].removesuffix("{end}").split("{page}"), 1):
+        lines = []
+        for n, line in enumerate(page.split("{n}"), 1):
+            codes = "".join(re.findall(r"\{c\w+\}|\{wait\}", line))
+            s = f"[{e['id']}] {p}.{n} "
+            for ch in FILLER if full else FILLER[:20]:
+                if font.text_width(s + ch, adv) > width:
+                    break
+                s += ch
+            lines.append(codes + s.rstrip())
+        pages.append("{n}".join(lines))
+    return "{page}".join(pages) + "{end}"
+
+
+def full_markers(dialogue):
+    """Ids whose markers fill the whole line: the first two entries of each box type."""
+    seen, out = {}, set()
+    for e in dialogue:
+        if seen.setdefault(e["box"], 0) < 2:
+            seen[e["box"]] += 1
+            out.add(e["id"])
+    return out
+
+
+def assemble(rom, glyphs):
+    """Write the font/width binaries, run asar on asm/vwf.asm over the ROM, return the patched bytes."""
+    if not ASAR.is_file():
+        raise SystemExit(f"{ASAR} missing: unzip asar.exe from github.com/RPGHacker/asar/releases (v1.91)")
+    tmp = OUT.parent / "_asar.sfc"
+    OUT.parent.mkdir(exist_ok=True)
+    (OUT.parent / "vwf_font.bin").write_bytes(font.glyph_bytes(glyphs))
+    (OUT.parent / "vwf_widths.bin").write_bytes(font.widths(glyphs))
+    tmp.write_bytes(rom)
+    r = subprocess.run([str(ASAR), "--fix-checksum=off", str(ASM), str(tmp)], capture_output=True, text=True)
+    if r.returncode:
+        raise SystemExit(f"asar failed:\n{r.stdout}{r.stderr}")
+    out = tmp.read_bytes()
+    tmp.unlink()
+    return bytearray(out)
+
+
+def build(orig, identity=False):
+    """identity: jp text and table, no engine patch (must equal the original). Else the English build."""
     rom = bytearray(orig)
-    texts = {int(e["id"], 16): e[LANG] or e["jp"] for e in load("dialogue")}
+    dialogue = load("dialogue")
     prologue = load("prologue")[0]
-    prologue = prologue[LANG] or prologue["jp"]
     gfx = gfx_blocks(orig)
     tiles = {name: g[3] for name, g in gfx.items()}
     # phase 7: tiles come from the edited graphics instead of the ROM
-    pack_text(rom, texts, t)
-    pack_prologue(rom, prologue)
+    if identity:
+        pack_text(rom, {int(e["id"], 16): e["jp"] for e in dialogue}, Table.load(TBL))
+        pack_prologue(rom, prologue["jp"])
+    else:
+        glyphs = font.load()
+        adv = font.advance_map(glyphs)
+        full = full_markers(dialogue)
+        texts = {int(e["id"], 16): e[LANG] or TORTURE.get(e["id"]) or marker(e, adv, e["id"] in full)
+                 for e in dialogue}
+        pack_text(rom, texts, Table.load(font.EN_TBL), ((TEXT_LO, TEXT_HI), TEXT_FREE))
+        pack_prologue(rom, prologue[LANG] or prologue["jp"])  # phase 5: prologue font still Japanese
+        rom = assemble(rom, glyphs)
     pack_gfx(rom, gfx, tiles)
     return bps.snes_checksum(rom)[0]
 

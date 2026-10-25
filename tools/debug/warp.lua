@@ -1,6 +1,7 @@
 -- Warp from a cold boot to a scene in tools/debug/scenes.lua, shoot it, stop. RAM/code facts: docs/re/debug.md.
 --   emu.py ROM --out work/qa/warp --script tools/debug/warp.lua --var "SCENE='boss1_h0'" --frames 20000
--- Optional: --var SHOT_EVERY_W=30 (shot cadence after arrival, default 60), --var NOSTOP=1 (run to --frames),
+-- Optional: --var SHOT_EVERY_W=30 (shot cadence after arrival, default 60), --var HOLD_W=4000 (frames to keep
+--   shooting after arrival, overrides the scene's hold), --var NOSTOP=1 (run to --frames),
 --   --var "SCENES_FILE='abs/path/scenes.lua'".
 -- Logs "ARRIVED <scene> f<frame>"; fails (exit 2) if --frames ends first.
 local scenes = dofile(SCENES_FILE or "../debug/scenes.lua")  -- Mesen runs with cwd = tools/mesen
@@ -155,7 +156,7 @@ L.on_frame(function(n)
   if arrived then
     local k = n - arrived
     if k % every == 0 then L.shot(string.format("f%06d.png", n)) end
-    if k == (sc.hold or 600) and not NOSTOP then
+    if k == (HOLD_W or sc.hold or 600) and not NOSTOP then
       L.shot("final.png")
       L.finish(0)
     end

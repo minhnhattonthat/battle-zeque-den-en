@@ -1,6 +1,7 @@
 """Warp to every scene in tools/debug/scenes.lua (or the ones named) from a cold boot, in parallel.
 
     python -X utf8 tools/debug/warp_all.py [SCENE ..] [--rom build/bzd_en.sfc] [--jobs 4] [--states] [--sheet]
+        [--lua tools/lua/trap.lua --var "ROM_TRAPS={{0x1DB7A,0x1FFFF}}"] [--out warp]
 
 Each scene runs tools/debug/warp.lua into work/qa/warp/<scene>/ (shots <scene>_<frame>.png + final.png).
 --states also writes work/states/<scene>.mss at the arrival point (regenerate after code/font/graphics changes).
@@ -42,12 +43,19 @@ def main():
     ap.add_argument("--jobs", type=int, default=4)
     ap.add_argument("--states", action="store_true")
     ap.add_argument("--sheet", action="store_true")
+    ap.add_argument("--lua", action="append", default=[], help="extra Lua probe run beside warp.lua")
+    ap.add_argument("--var", action="append", default=[], help="NAME=value passed to emu.py (probe settings)")
+    ap.add_argument("--out", default="warp", help="work/qa/<out>/<scene>/ (default warp)")
     a = ap.parse_args()
     names = a.scenes or scene_names(a.rom)
 
     def run(scene):
-        out = os.path.join(ROOT, "work", "qa", "warp", scene)
+        out = os.path.join(ROOT, "work", "qa", a.out, scene)
         extra = ["--state-out", os.path.join(ROOT, "work", "states", scene + ".mss")] if a.states else []
+        for lua in a.lua:
+            extra += ["--script", lua]
+        for v in a.var:
+            extra += ["--var", v]
         r = emu(a.rom, out, scene, extra)
         log = os.path.join(out, "log.txt")
         text = open(log, encoding="utf-8").read() if os.path.exists(log) else ""

@@ -83,8 +83,17 @@ Slot layout: three slots per scene, one per heroine (op 01 low byte 00 = 波無�
   `$82:D0F9` has no JSR/JSL caller; its only reference is the `JMP $D0F9` loop at `$82:D276` (file 0x15276).
   Extracted to `script/prologue.json` (one entry, `tools/extract.py`).
 - The dialogue font has its own SJIS order list at file 0x1A624 (matches `tbl/jp.tbl`'s glyph order).
+- Display (phase 5, `ppudump.lua` at f2500 of an idle boot): **BG3** (mode 1, 2bpp), tilemap $F000 bytes (64x32),
+  tiles $A000; hscroll moves (344 at f2500). Each glyph (16x16 from $84:A4BC + i*32, shadow added as in the dialogue)
+  gets 4 new tiles in order (0x12D, 0x131, ...), written through the WRAM port $2180, and one 2x2 map cell; a
+  column = one line, top down, 3 tile columns apart, lines right to left; the BG scrolls to follow.
+- **English plan (phase 7, not built yet):** horizontal lines need the layout changed (cell step x instead of y,
+  0D = next row instead of next column, BG3 vscroll instead of hscroll) and VWF lines pre-rendered by the build
+  into 16x16 cells that the existing drawer copies (the SJIS lookup lists map each cell code to a cell). Check
+  how many tiles the allocator can hand out before it reaches other BG3/BG4 tiles. Budget in `tools/boxes.py`
+  is a guess until then.
 
-## Free space for text (candidates, not verified)
+## Free space for text (trap-tested in phase 5, `rom.md`; `build.py` packs the slot, then `$83:DB7A+`)
 
 - `$83:DB7A-$83:FFFF` (file 0x1DB7A-0x1FFFF, 9,350 bytes of 00) - the only big run in bank $83. With the 5,115-byte
   original block that is ~14.4 KB for English if the text stays in bank $83. Trap-test it before use.

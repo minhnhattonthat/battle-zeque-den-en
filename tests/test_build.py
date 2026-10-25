@@ -17,7 +17,7 @@ needs_rom = pytest.mark.skipif(not build.ROM.is_file(), reason="ROM absent")
 @needs_rom
 def test_identity_build():
     orig = build.ROM.read_bytes()
-    assert build.build(orig) == orig
+    assert build.build(orig, identity=True) == orig
 
 
 @needs_rom
