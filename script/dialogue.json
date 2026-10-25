@@ -209,7 +209,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "いずれにせよ　ここから先は{n}人間などが足をふみいれて{n}よい場所ではない！{end}",
-  "en": "Either way, beyond this point is{n}no place for mere humans to set{n}foot!{end}"
+  "en": "Either way, beyond this point is{n}no place for mere humans to{n}set foot!{end}"
  },
  {
   "id": "AD25",
@@ -253,7 +253,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "ウワッ！{n}なんだろうこの強い気は{page}ここってば{n}悪者のたまり場かなァ{end}",
-  "en": "Whoa! What's this super strong{n}aura?{page}Is this place, like, where all the{n}bad guys hang out?{end}"
+  "en": "Whoa! What's this super{n}strong aura?{page}Is this place, like, where all the{n}bad guys hang out?{end}"
  },
  {
   "id": "ADA2",
@@ -263,7 +263,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "むこうが勝手に{n}仕掛けてきたんだよォ！{end}",
-  "en": "He's the one who started it, you{n}know!{end}"
+  "en": "He's the one who started it,{n}you know!{end}"
  },
  {
   "id": "ADBA",
@@ -323,7 +323,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "この川さえ越えてしまえば{n}もうすぐシュミセンが{n}見えてくるはずだ！{end}",
-  "en": "Once I'm across this river, I{n}should be able to see Shumisen{n}soon!{end}"
+  "en": "Once I'm across this river, I{n}should be able to see{n}Shumisen soon!{end}"
  },
  {
   "id": "AE90",
@@ -355,7 +355,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "ぐふっ！{n}口も達者なようじゃねえか{end}",
-  "en": "Heh! Got a smart mouth on ya,{n}too!{end}"
+  "en": "Heh! Got a smart mouth on{n}ya, too!{end}"
  },
  {
   "id": "AED1",
@@ -396,7 +396,7 @@
   "box": "enemy",
   "heroine": "Hamusu",
   "jp": "んの？おめえ波無寿じゃねえか{n}なんだって{n}こんなトコにきたんだァ？{end}",
-  "en": "Huh? Ain't you Hamusu? What the{n}heck are ya doin' in a place like{n}this?{end}"
+  "en": "Huh? Ain't you Hamusu? What{n}the heck are ya doin' in a place{n}like this?{end}"
  },
  {
   "id": "AF62",
@@ -612,7 +612,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "霊峰シュミセンを{n}守っていた一族{n}それが火の一族だ{end}",
-  "en": "The clan that guarded the sacred{n}peak Shumisen -- that is the fire{n}clan.{end}"
+  "en": "The clan that guarded the{n}sacred peak Shumisen -- that is{n}the fire clan.{end}"
  },
  {
   "id": "B222",
@@ -712,7 +712,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "かわいらしい{n}お嬢さんじゃござんせんか{end}",
-  "en": "Why, if it isn't a darling young{n}lady!{end}"
+  "en": "Why, if it isn't a darling{n}young lady!{end}"
  },
  {
   "id": "B367",
@@ -743,7 +743,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "邪魔する者は{n}倒すのみ！{end}",
-  "en": "Whoever gets in my way goes{n}down!{end}"
+  "en": "Whoever gets in my way{n}goes down!{end}"
  },
  {
   "id": "B3C5",
@@ -845,7 +845,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "邪魔するんだったら{n}やっつけちゃうよ！{end}",
-  "en": "If you get in my way, I'll beat you{n}up!{end}"
+  "en": "If you get in my way, I'll beat{n}you up!{end}"
  },
  {
   "id": "B525",
@@ -945,7 +945,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "シュミセンへ行きます{n}あなたとは戦いたくありません{n}ここを通してください！{end}",
-  "en": "I am going to Shumisen. I do not{n}wish to fight you. Please let me{n}pass!{end}"
+  "en": "I am going to Shumisen. I do{n}not wish to fight you. Please let{n}me pass!{end}"
  },
  {
   "id": "B66C",
@@ -955,7 +955,7 @@
   "box": "enemy",
   "heroine": "Kairu",
   "jp": "あなたの都合にばかり{n}おつきあいするわけには{n}いきませんねえ……{end}",
-  "en": "I'm afraid I can't always go along{n}with whatever suits you, now can{n}I...{end}"
+  "en": "I'm afraid I can't always go along{n}with whatever suits you, now{n}can I...{end}"
  },
  {
   "id": "B68F",
@@ -1095,7 +1095,7 @@
   "box": "enemy",
   "heroine": "Rufu",
   "jp": "ちっぼけな人間が{n}どうにかできることじゃねえ{n}いや……させねえ！{end}",
-  "en": "It's nothing a puny human can do{n}anything about. No... I won't let{n}you!{end}"
+  "en": "It's nothing a puny human can{n}do anything about. No... I won't{n}let you!{end}"
  },
  {
   "id": "B868",
@@ -1115,7 +1115,7 @@
   "box": "enemy",
   "heroine": "Rufu",
   "jp": "だから……{n}それがあたしの運命だと{n}知ったからさ！{end}",
-  "en": "Because... I found out that's my{n}fate!{end}"
+  "en": "Because... I found out that's{n}my fate!{end}"
  },
  {
   "id": "B88E",
@@ -1290,7 +1290,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "世界を救うことが{n}私の運命だとしたら？{end}",
-  "en": "What if saving the world is my{n}fate?{end}"
+  "en": "What if saving the world is{n}my fate?{end}"
  },
  {
   "id": "BABD",
@@ -1314,7 +1314,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "すべての物には{n}決められた運命がある{end}",
-  "en": "Everything has a fate decided for{n}it.{end}"
+  "en": "Everything has a fate decided{n}for it.{end}"
  },
  {
   "id": "BAFC",
@@ -1398,7 +1398,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "たったいまおまえが倒した者{n}それがおまえ自身の欲望だ{page}残念だが{n}私に勝ったわけではない{end}",
-  "en": "What you just defeated was your{n}own desire.{page}I am afraid you have not defeated{n}me.{end}"
+  "en": "What you just defeated was your{n}own desire.{page}I am afraid you have not{n}defeated me.{end}"
  },
  {
   "id": "BC11",

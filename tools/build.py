@@ -38,12 +38,24 @@ LANG = "en"  # text field read from script/*.json; empty -> the jp text
 TEXT_LO, TEXT_HI = 0x1AA38, 0x1BE33
 TEXT_FREE = (0x1DB7A, 0x20000)  # bank $83 free space, trap-tested (docs/re/rom.md); text must stay in bank $83
 PROLOGUE_LO = 0x10D0C
+CHECKSUM = 0x7FDC  # LoROM header checksum complement + checksum
 GFX = {"G5": 9, "G4": 11, "G3": 13}  # directory entry whose tile block holds Japanese lettering
 BUF_PX = {"profile": 128}  # text buffer row width in px (asm/vwf.asm); others 23 tiles
 FILLER = "The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. "
 # glyph torture line (every printable ASCII + double spaces), shown instead of the marker of entry AA38 (ch1_h0)
 TORTURE = {"AA38": "!\"#$%&'()*+,-./0123456789:;<=>?@{n}ABCDEFGHIJKLMNOPQRSTUVWXYZ{n}"
                    "[\\]^_` abcdefghijklmnopq{n}rstuvwxyz{|}~  x  y  z{end}"}
+
+
+WRITES = []  # (offset, original bytes, new bytes, writer) of the last build(): build/writes.txt for romdiff.py
+_ORIG = b""  # the clean original of the current build()
+
+
+def put(rom, off, data, by):
+    """Every write of the build goes through here, so romdiff.py --writes can check it (docs/re/rom.md)."""
+    data = bytes(data)
+    WRITES.append((off, _ORIG[off:off + len(data)], data, by))
+    rom[off:off + len(data)] = data
 
 
 def load(name):
@@ -65,24 +77,23 @@ def pack_text(rom, texts, t, regions=((TEXT_LO, TEXT_HI),)):
     """Write the strings back to back, filling each region (file ranges in bank $83) in turn, and point every
     script op at its string's new address. Unused bytes of each region become 00."""
     refs = script_vm.text_pointers(rom)
-    regions = [list(r) for r in regions]
-    for lo, hi in regions:
-        rom[lo:hi] = bytes(hi - lo)
+    bufs = [bytearray() for _ in regions]
     new, ri = {}, 0
     for addr, text in texts.items():
         b = t.encode(text)
-        while regions[ri][0] + len(b) > regions[ri][1]:
+        while regions[ri][0] + len(bufs[ri]) + len(b) > regions[ri][1]:
             ri += 1
             if ri == len(regions):
                 raise SystemExit(f"text does not fit: {sum(len(t.encode(x)) for x in texts.values())} bytes, "
                                  f"regions hold {sum(hi - lo for lo, hi in regions)}")
-        lo = regions[ri][0]
-        rom[lo:lo + len(b)] = b
-        new[addr] = lo - script_vm.BANK
-        regions[ri][0] += len(b)
+        new[addr] = regions[ri][0] + len(bufs[ri]) - script_vm.BANK
+        bufs[ri] += b
+    for i, ((lo, hi), buf) in enumerate(zip(regions, bufs)):
+        if buf or not i:  # the original slot is always rewritten whole; free space only as far as it is used
+            put(rom, lo, buf + bytes(hi - lo - len(buf) if not i else 0), f"text region {i}")
     for addr, uses in refs.items():
         for _, at in uses:
-            rom[script_vm.BANK + at + 1:script_vm.BANK + at + 3] = new[addr].to_bytes(2, "little")
+            put(rom, script_vm.BANK + at + 1, new[addr].to_bytes(2, "little"), f"text pointer {addr:04X}")
 
 
 def prologue_end(rom):
@@ -114,7 +125,7 @@ def pack_prologue(rom, text):
     end = prologue_end(rom)
     if len(out) > end - PROLOGUE_LO:
         raise SystemExit(f"prologue {len(out)} bytes, slot holds {end - PROLOGUE_LO}")
-    rom[PROLOGUE_LO:end] = out + bytes(end - PROLOGUE_LO - len(out))
+    put(rom, PROLOGUE_LO, out + bytes(end - PROLOGUE_LO - len(out)), "prologue")
 
 
 def gfx_blocks(rom):
@@ -137,7 +148,7 @@ def pack_gfx(rom, orig, tiles):
         blk = lz.compress(data, stride)
         if len(blk) > end - start:
             raise SystemExit(f"{name}: compressed {len(blk)} bytes, slot holds {end - start}")
-        rom[start:start + len(blk)] = blk
+        put(rom, start, blk, f"{name} tiles")
 
 
 def marker(e, adv, full):
@@ -184,11 +195,23 @@ def assemble(rom, glyphs):
         raise SystemExit(f"asar failed:\n{r.stdout}{r.stderr}")
     out = tmp.read_bytes()
     tmp.unlink()
+    diff = [i for i in range(len(out)) if out[i] != rom[i]]
+    while diff:  # log asar's changes as one write per span (changed runs less than 32 bytes apart)
+        j = 1
+        while j < len(diff) and diff[j] - diff[j - 1] < 32:
+            j += 1
+        lo, hi = diff[0], diff[j - 1] + 1
+        WRITES.append((lo, _ORIG[lo:hi], out[lo:hi], "asm/vwf.asm"))
+        del diff[:j]
     return bytearray(out)
 
 
 def build(orig, identity=False):
-    """identity: jp text and table, no engine patch (must equal the original). Else the English build."""
+    """identity: jp text and table, no engine patch (must equal the original). Else the English build.
+    Fills WRITES with every write made."""
+    global _ORIG
+    _ORIG = bytes(orig)
+    WRITES.clear()
     rom = bytearray(orig)
     dialogue = load("dialogue")
     prologue = load("prologue")[0]
@@ -208,7 +231,8 @@ def build(orig, identity=False):
         pack_prologue(rom, prologue["jp"])  # phase 7: the English prologue needs its own renderer (text.md)
         rom = assemble(rom, glyphs)
     pack_gfx(rom, gfx, tiles)
-    return bps.snes_checksum(rom)[0]
+    put(rom, CHECKSUM, bps.snes_checksum(rom)[0][CHECKSUM:CHECKSUM + 4], "header checksum")
+    return bytes(rom)
 
 
 def main():
@@ -217,6 +241,8 @@ def main():
     out = build(orig)
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_bytes(out)
+    (OUT.parent / "writes.txt").write_text("".join(f"{o:X} {a.hex()} {b.hex()} {by}\n" for o, a, b, by in WRITES),
+                                           encoding="utf-8", newline="\n")
     diff = sum(a != b for a, b in zip(orig, out))
     print(f"{OUT.relative_to(ROOT)}: {len(out)} bytes, {diff} bytes differ from the original")
 

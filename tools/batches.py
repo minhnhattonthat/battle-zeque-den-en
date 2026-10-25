@@ -35,6 +35,7 @@ SCENE = {range(0, 3): "ch1 boss", range(3, 6): "ch2 boss", range(6, 9): "ch3 bos
          range(30, 45): "chapter opening", range(45, 48): "ch4 temple, guard", range(48, 51): "ch4 guard defeated",
          range(84, 87): "profile screen"}
 HONORIFICS = {"さん": "-san", "様": "-sama"}
+STUB = 6  # a paragraph's last line under this many characters is an orphaned word (tests/test_lint.py)
 NOT_HONORIFIC = ("お嬢さん",)
 
 
@@ -64,21 +65,34 @@ def width(line, adv):
     return sum(adv.get(c, 0) for c in CODE.sub("", line))  # unknown characters are reported by check
 
 
+def greedy(seg, px, adv):
+    lines, cur = [], ""
+    for word in seg.split():
+        trial = f"{cur} {word}" if cur else word
+        if cur and width(trial, adv) > px:
+            lines.append(cur)
+            cur = word
+        else:
+            cur = trial
+    return lines + [cur]
+
+
 def wrap(text, px, adv):
-    """Paragraph text -> lines joined by {n}, pages by {page}; greedy on spaces. No {end}."""
+    """Paragraph text -> lines joined by {n}, pages by {page}; greedy on spaces. No {end}. A segment whose last
+    line would be a stub (< STUB characters) is re-wrapped at the narrowest width that keeps its line count."""
     pages = []
     for page in text.split("{page}"):
         lines = []
         for seg in page.split("{n}"):
-            cur = ""
-            for word in seg.split():
-                trial = f"{cur} {word}" if cur else word
-                if cur and width(trial, adv) > px:
-                    lines.append(cur)
-                    cur = word
-                else:
-                    cur = trial
-            lines.append(cur)
+            out = greedy(seg, px, adv)
+            narrow = px
+            while len(out) > 1 and len(CODE.sub("", out[-1])) < STUB and narrow > px // 2:
+                narrow -= 1
+                trial = greedy(seg, narrow, adv)
+                if len(trial) != len(out):
+                    break
+                out = trial
+            lines += out
         pages.append("{n}".join(lines))
     return "{page}".join(pages)
 
@@ -150,45 +164,51 @@ def check(name, quiet=False):
                     f"extra {sorted(set(got) - set(ids))}, duplicates {[i for i, c in Counter(got).items() if c > 1]}"
                     + (", order differs" if sorted(ids) == sorted(got) else ""))
     for id_, en in out:
-        e = by_id.get(id_)
-        if e is None:
-            continue
-        box = BOXES[e["box"]]
-        bad = sorted({c for c in CODE.sub("", en) if not (" " <= c <= "~") or c in "{}[]"})
-        if bad:
-            errs.append(f"{id_}: characters not allowed: {''.join(bad)!r} (ASCII only, no {{}} [] outside codes)")
-        unknown = [c for c in CODE.findall(en) if c not in ("{n}", "{page}") and not EFFECT.fullmatch(c)]
-        if unknown:
-            errs.append(f"{id_}: unknown codes {unknown} ({{end}} is added by the tool)")
-        if Counter(EFFECT.findall(en)) != Counter(EFFECT.findall(e["jp"])):
-            errs.append(f"{id_}: effect codes {EFFECT.findall(en)} != jp {EFFECT.findall(e['jp'])}")
-        if re.search(r"(^|\{n\}|\{page\})\s*(\{n\}|\{page\}|$)", en):
-            errs.append(f"{id_}: empty line (a break at column 0 is ignored by the game)")
-        wrapped = wrap(en, box["px"], adv)
-        lines = re.split(r"\{n\}|\{page\}", wrapped)
-        for ln in lines:
-            if width(ln, adv) > box["px"]:
-                errs.append(f"{id_}: word too wide: {ln!r} {width(ln, adv)} px > {box['px']}")
-        if e["box"] == "profile" and len(lines) > box["lines"]:
-            errs.append(f"{id_}: {len(lines)} lines, the profile shows {box['lines']}")
-        for p, page in enumerate(wrapped.split("{page}"), 1):
-            if e["box"] != "profile" and page.count("{n}") >= box["lines"]:
-                errs.append(f"{id_}: page {p} wraps to {page.count('{n}') + 1} lines (box shows {box['lines']}): "
-                            "shorten, or put {page} at a sentence break")
-        for jp, ens, avoid in gl:
-            if jp in e["jp"] and not any(x.lower() in en.lower() for x in ens):
-                errs.append(f"{id_}: glossary: {jp} -> {ens[0]!r} missing")
-            for a in avoid if jp in e["jp"] else ():  # "old man" is fine outside an おっちゃん line
-                if re.search(rf"\b{re.escape(a)}\b", en):
-                    errs.append(f"{id_}: glossary: avoid {a!r}")
-        jp = e["jp"]
-        for x in NOT_HONORIFIC:
-            jp = jp.replace(x, "")
-        for h, form in HONORIFICS.items():
-            if jp.count(h) > en.count(form):
-                errs.append(f"{id_}: honorific {h} -> {form!r} missing (D1: keep honorifics)")
+        if id_ in by_id:
+            errs += entry_errors(by_id[id_], en, adv, gl)
     if not quiet:
         print("\n".join(errs) if errs else f"OK {name}: {len(out)} entries")
+    return errs
+
+
+def entry_errors(e, en, adv, gl):
+    """Lint one entry's English (paragraph or merged text, no {end}); also run by tests/test_lint.py."""
+    id_, errs = e["id"], []
+    box = BOXES[e["box"]]
+    bad = sorted({c for c in CODE.sub("", en) if not (" " <= c <= "~") or c in "{}[]"})
+    if bad:
+        errs.append(f"{id_}: characters not allowed: {''.join(bad)!r} (ASCII only, no {{}} [] outside codes)")
+    unknown = [c for c in CODE.findall(en) if c not in ("{n}", "{page}") and not EFFECT.fullmatch(c)]
+    if unknown:
+        errs.append(f"{id_}: unknown codes {unknown} ({{end}} is added by the tool)")
+    if Counter(EFFECT.findall(en)) != Counter(EFFECT.findall(e["jp"])):
+        errs.append(f"{id_}: effect codes {EFFECT.findall(en)} != jp {EFFECT.findall(e['jp'])}")
+    if re.search(r"(^|\{n\}|\{page\})\s*(\{n\}|\{page\}|$)", en):
+        errs.append(f"{id_}: empty line (a break at column 0 is ignored by the game)")
+    wrapped = wrap(en, box["px"], adv)
+    lines = re.split(r"\{n\}|\{page\}", wrapped)
+    for ln in lines:
+        if width(ln, adv) > box["px"]:
+            errs.append(f"{id_}: word too wide: {ln!r} {width(ln, adv)} px > {box['px']}")
+    if e["box"] == "profile" and len(lines) > box["lines"]:
+        errs.append(f"{id_}: {len(lines)} lines, the profile shows {box['lines']}")
+    for p, page in enumerate(wrapped.split("{page}"), 1):
+        if e["box"] != "profile" and page.count("{n}") >= box["lines"]:
+            errs.append(f"{id_}: page {p} wraps to {page.count('{n}') + 1} lines (box shows {box['lines']}): "
+                        "shorten, or put {page} at a sentence break")
+    flat = re.sub(r"\{n\}|\{page\}", " ", en).lower()  # merged text breaks terms across lines
+    for jp, ens, avoid in gl:
+        if jp in e["jp"] and not any(x.lower() in flat for x in ens):
+            errs.append(f"{id_}: glossary: {jp} -> {ens[0]!r} missing")
+        for a in avoid if jp in e["jp"] else ():  # "old man" is fine outside an おっちゃん line
+            if re.search(rf"\b{re.escape(a)}\b", en):
+                errs.append(f"{id_}: glossary: avoid {a!r}")
+    jp = e["jp"]
+    for x in NOT_HONORIFIC:
+        jp = jp.replace(x, "")
+    for h, form in HONORIFICS.items():
+        if jp.count(h) > en.count(form):
+            errs.append(f"{id_}: honorific {h} -> {form!r} missing (D1: keep honorifics)")
     return errs
 
 
