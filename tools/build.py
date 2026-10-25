@@ -2,6 +2,7 @@
 
     python -X utf8 tools/build.py
 
+Text comes from script/dialogue.json and script/prologue.json (tools/extract.py), field LANG, else jp.
 Areas (docs/re/text.md, graphics.md):
   - dialogue block 0x1AA38-0x1BE33 (font-cell codes, tbl/jp.tbl), strings packed back to back, every script
     pointer ($83:BE33 VM) moved to its string's new address;
@@ -9,6 +10,7 @@ Areas (docs/re/text.md, graphics.md):
   - G3/G4/G5 tile blocks (asset directory entries 13/11/9), lz codec; an unchanged block keeps its original bytes.
 With no edits the output is byte-identical to the original (tests/test_build.py, the identity build).
 """
+import json
 import re
 import sys
 from pathlib import Path
@@ -24,9 +26,16 @@ ROOT = Path(__file__).resolve().parent.parent
 ROM = ROOT / "rom" / "Battle Zeque Den (Japan).sfc"
 OUT = ROOT / "build" / "bzd_en.sfc"
 TBL = ROOT / "tbl" / "jp.tbl"
+SCRIPT = ROOT / "script"
+LANG = "en"  # text field read from script/*.json; empty -> the jp text
 TEXT_LO, TEXT_HI = 0x1AA38, 0x1BE33
 PROLOGUE_LO = 0x10D0C
 GFX = {"G5": 9, "G4": 11, "G3": 13}  # directory entry whose tile block holds Japanese lettering
+
+
+def load(name):
+    """Entries of script/<name>.json (written by tools/extract.py)."""
+    return json.loads((SCRIPT / f"{name}.json").read_text(encoding="utf-8"))
 
 
 def unpack_text(rom, t):
@@ -113,10 +122,12 @@ def pack_gfx(rom, orig, tiles):
 def build(orig):
     t = Table.load(TBL)
     rom = bytearray(orig)
-    texts, prologue = unpack_text(orig, t), unpack_prologue(orig)
+    texts = {int(e["id"], 16): e[LANG] or e["jp"] for e in load("dialogue")}
+    prologue = load("prologue")[0]
+    prologue = prologue[LANG] or prologue["jp"]
     gfx = gfx_blocks(orig)
     tiles = {name: g[3] for name, g in gfx.items()}
-    # phase 4+: texts / prologue / tiles come from script/ and the edited graphics instead of the ROM
+    # phase 7: tiles come from the edited graphics instead of the ROM
     pack_text(rom, texts, t)
     pack_prologue(rom, prologue)
     pack_gfx(rom, gfx, tiles)

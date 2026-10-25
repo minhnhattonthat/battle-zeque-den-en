@@ -78,8 +78,10 @@ Slot layout: three slots per scene, one per heroine (op 01 low byte 00 = 波無�
 - Its own font: SJIS lookup lists at file 0x15281 (hiragana), 0x15315 (katakana), 0x153A7 (kanji
   天空地予言者約波破乱滅二応泥兆中争全生時持支合固形叫開世意闇河流留寿無々心人気反対大風分部純不粋虚実束像混語光水「」間始).
   Some of those kanji (泥 固形 純粋 虚実 混 像 水 開 持) appear in no SJIS text in the ROM: other text may use this
-  font through another encoding, or they are unused. Phase 4 must extract this text and look for other callers
-  of `$82:D0F9`.
+  font through another encoding, or they are unused. **verified unused for SJIS text** (phase 4): a ROM-wide scan
+  for runs of 4+ valid SJIS pairs finds only the prologue, the font lists and noise; 固 and 持 occur nowhere else.
+  `$82:D0F9` has no JSR/JSL caller; its only reference is the `JMP $D0F9` loop at `$82:D276` (file 0x15276).
+  Extracted to `script/prologue.json` (one entry, `tools/extract.py`).
 - The dialogue font has its own SJIS order list at file 0x1A624 (matches `tbl/jp.tbl`'s glyph order).
 
 ## Free space for text (candidates, not verified)

@@ -13,7 +13,7 @@ Skill: translate-retro-game; `python tools/skill.py` prints its folder. Read its
 
 ## Paths
 - Original ROM: `rom/Battle Zeque Den (Japan).sfc` (gitignored; 1,572,864 bytes, no header; SHA-1 in `rom.sha1`, checked by `tools/check_rom.py`). Emulator: this repo's own copy in `tools/mesen/` (MesenCE 2.2.1, https://github.com/nesdev-org/MesenCE/releases/download/2.2.1/Mesen_2.2.1_Windows.zip, via `fetch_emu.py mesen`; gitignored; settings in `tools/emu-config/`). Savestates: `work/states/`.
-- Text: `script/` (JSON, phase 4). Tables: `tbl/`. Glossary: `glossary.md`. RE notes index: `docs/re/README.md`. Fonts and their licences: `docs/fonts.md`.
+- Text: `script/dialogue.json` + `prologue.json` (`tools/extract.py` writes missing files only; build reads `en`, else `jp`). Tables: `tbl/`. Glossary: `glossary.md`. RE notes index: `docs/re/README.md`. Fonts and their licences: `docs/fonts.md`.
 - RE helpers (phase 1): `tools/gen_tbl.py` (writes `tbl/jp.tbl`), `script_vm.py` (text pointers), `dump_text.py`, `lz.py` (codec), `dump_assets.py`/`render_assets.py`/`lz_scan.py`/`sweep_sheets.py` (graphics), `font_sheet.py`; Lua probes in `tools/lua/`.
 - Copied from the skill so a clone builds without it: `tools/tbl.py`, `tools/bps.py`, `tools/romdiff.py`. QA tools (`emu.py`, `play.py`, `qa_gate.py`, `jp_left.py`) run through `tools/skill.py`.
 

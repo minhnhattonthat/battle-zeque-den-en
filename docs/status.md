@@ -2,7 +2,7 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 3 (identity build) done 2026-10-25. Next: phase 4 (extract to `script/` JSON).
+- **Phase:** 4 (extract) done 2026-10-25. Next: phase 5 (engine spike + marker build).
 - **Done (phase 1):** all in `docs/re/` (index `docs/re/README.md`), facts pinned by `tests/test_recon.py`.
   - ROM: LoROM FastROM 1.5 MB, header says 2 MB; free-space candidates listed, none trap-tested (`rom.md`).
   - Dialogue: one block in bank $83 (0x1AA38-0x1BE33, 143 strings, font-cell encoding), script VM table
@@ -24,9 +24,16 @@ Updated at the end of every session. Keep it to what the next session needs; his
   0x10D0C-0x10E22), G3/G4/G5 tile blocks (unchanged -> original bytes, else `lz.compress`), fixes the header
   checksum -> `build/bzd_en.sfc`, 0 bytes differ, smoke ok. `tests/test_build.py`: identity, compressor roundtrip
   over every directory block. `bps.snes_checksum` fixed for 1.5 MB (mirrored sum; the plain sum was wrong).
-- **Next (phase 4, extract):** dump texts (`build.unpack_text`) and prologue (`build.unpack_prologue`) to
-  `script/*.json` with ids, speaker/slot info from `script_vm`; build reads JSON instead of the ROM (the
-  `# phase 4+` line in `build.build`); roundtrip test JSON -> bytes == original.
+- **Done (phase 4):** `tools/extract.py` -> `script/dialogue.json` (143 entries: id = $83 address, `uses`
+  "slot:op:portraits", `box` hero/enemy/toutetsu/profile, `heroine` from op-01 low byte (guess), `jp`, `en`) and
+  `script/prologue.json` (1 entry, `\n` = 0D, `[XX]` controls). Never overwrites. `build.py` reads JSON (`LANG`
+  field, else `jp`); identity still 0 bytes differ, smoke ok. `tests/test_extract.py`: JSON == fresh dump, jp
+  re-encodes to the whole block with no gap, prologue re-encodes to its slot. ROM-wide SJIS scan: prologue is the
+  only SJIS text; `$82:D0F9` has no other caller (`text.md`).
+- **Next (phase 5, marker build):** font/VWF decision for the 16x16-cell dialogue font (3 rows/box) and the
+  vertical prologue font; English table `tbl/en.tbl`; marker build (`[id]` per string) through `LANG`; trap-test
+  free space $83:DB7A-$83:FFFF; measure every box variant (hero/enemy/toutetsu/profile, prologue) in-game.
+  `{end}` is part of each `jp` string (tbl terminator): English must keep it.
 - **Open bugs:** none.
 - **Notes for later phases:**
   - `lz.compress` (no stride copies / replays) is 5-9% bigger than the game's blocks (G3 13905 vs 12785 slot,
