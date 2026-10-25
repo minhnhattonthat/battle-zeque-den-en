@@ -3,6 +3,9 @@
 007FDC-007FDF  header checksum
 00657B-007FBF  $80:E57B free space: VWF code (asm/vwf.asm, org $80E580)
 010D0C-010E22  prologue slot (SJIS sequence script text)
+010FA8-01102B  prologue sequence script: heroine-name sprite lists (x, y, tile, attr)
+012D48-012D7A  staff roll strings ("Charactor" typo x2)
+013585-013589  chapter card hook $82:B585 (JSL card_draw; RTS)
 019F01-019F05  glyph draw hook $83:9F01 (JSL vwf_draw; RTS)
 01A51A-01A51B  {page} handler $83:A51A
 01A561-01A5AD  newline handler $83:A561, rewritten in place
@@ -10,3 +13,6 @@
 01BEE1-01C2D3  cutscene scripts: text pointer operands
 01DB7A-01FFFF  $83:DB7A free space: overflow text
 02008C-0221E3  dialogue font glyphs $84:808C (VWF slots), up to the 8x8 font at 0x221E4
+02C16A-02CB2F  G5 prologue name sprites: asset directory entry 9 map + tile blocks
+02F90F-030C5B  G4 chapter cards: asset directory entry 11 map + tile blocks
+030C5C-031B15  G3 select-screen name sprites: asset directory entry 12 map + tile blocks

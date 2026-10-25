@@ -99,11 +99,12 @@ def decompress(data, off, init=0):
 
 
 def compress(data, stride):
-    """Block for decompress(): zero runs (op 0), byte repeats (op 1) and literals (ops 4/5).
-    shortcut: no stride copies (8-B) or stream replays (E/F), so output is larger than the game's; add op 8/9
-    matching if an edited block no longer fits its slot."""
+    """Block for decompress(), greedy: at each byte the one-byte command covering the most output (zero run 0,
+    byte/word/dword repeat 1-3, copy from one or two strides back 8/9, counting-up words C), else a literal (4/5).
+    shortcut: no stream replays (E/F) or delta bytes (6/7), so output is a little larger than the game's."""
     out = bytearray(len(data).to_bytes(2, "little") + stride.to_bytes(2, "little"))
     lit = bytearray()
+    size = len(data)
 
     def flush():
         while lit:
@@ -112,20 +113,48 @@ def compress(data, stride):
             out.append(0x50 | len(chunk) - 17 if len(chunk) > 16 else 0x40 | len(chunk) - 1)
             out.extend(chunk)
 
-    def run(i, b):
+    def match(i, back, unit, cap):
+        """Bytes from i equal to the bytes `back` earlier, rounded down to whole units, at most cap units."""
         n = 0
-        while n < 16 and i + n < len(data) and data[i + n] == b:
+        while n < cap * unit and i + n < size and data[i + n] == data[i + n - back]:
             n += 1
-        return n
+        return n - n % unit
+
+    def best(i):
+        cands = []
+        z = 0
+        while z < 16 and i + z < size and data[i + z] == 0:
+            z += 1
+        cands.append((z, z - 1))
+        if i >= 1:
+            n = match(i, 1, 1, 16)
+            cands.append((n, 0x10 | n - 1))
+        if i >= 2:
+            n = match(i, 2, 2, 16)
+            cands.append((n, 0x20 | n // 2 - 1))
+            w, n = data[i - 2] | data[i - 1] << 8, 0
+            while n < 16 and i + 2 * n + 1 < size:
+                w = w + 1 & 0xFFFF
+                if data[i + 2 * n] | data[i + 2 * n + 1] << 8 != w:
+                    break
+                n += 1
+            cands.append((2 * n, 0xC0 | n - 1))
+        if i >= 4:
+            n = match(i, 4, 4, 16)
+            cands.append((n, 0x30 | n // 4 - 1))
+        for k, op in ((1, 0x80), (2, 0x90)):
+            if stride and i >= k * stride:
+                n = match(i, k * stride, 1, 16)
+                cands.append((n, op | n - 1))
+        return max(cands, key=lambda c: c[0])
 
     i = 0
-    while i < len(data):
-        z = run(i, 0)
-        r = run(i, data[i - 1]) if i else 0
-        if max(z, r) >= 2:
+    while i < size:
+        n, cmd = best(i)
+        if n >= 2:
             flush()
-            out.append(z - 1 if z >= r else 0x10 | r - 1)
-            i += max(z, r)
+            out.append(cmd)
+            i += n
         else:
             lit.append(data[i])
             i += 1

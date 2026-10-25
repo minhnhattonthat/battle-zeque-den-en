@@ -7,9 +7,11 @@ Areas (docs/re/text.md, graphics.md):
   - dialogue block 0x1AA38-0x1BE33 (font-cell codes, tbl/jp.tbl), strings packed back to back, every script
     pointer ($83:BE33 VM) moved to its string's new address;
   - prologue, Shift-JIS inline in a bank-$82 sequence script at 0x10D0C (no pointer: must fit its slot);
-  - G3/G4/G5 tile blocks (asset directory entries 13/11/9), lz codec; an unchanged block keeps its original bytes.
+  - graphics text (asset directory entries, lz codec): G4 chapter cards = entry 11 redrawn by tools/gfx_text.py
+    from script/graphics.json, recompressed in place.
 build(orig, identity=True) (tests/test_build.py): jp text, no engine patch -> byte-identical to the original.
-The real build: the VWF (asm/vwf.asm, fonts/vwf.txt via tools/font.py, assembled with tools/asar/asar.exe) and
+The real build: asm/main.asm (VWF asm/vwf.asm with fonts/vwf.txt via tools/font.py, chapter card asm/card.asm;
+assembled with tools/asar/asar.exe) and
 tbl/en.tbl; a dialogue entry with no LANG text gets a marker line "[id] p.l The quick brown fox..." per line of its
 jp text (the marker build), so every box shows which string it is.
 """
@@ -22,6 +24,7 @@ from pathlib import Path
 import bps
 import check_rom
 import font
+import gfx_text
 import lz
 import script_vm
 from dump_assets import entries
@@ -33,14 +36,17 @@ OUT = ROOT / "build" / "bzd_en.sfc"
 TBL = ROOT / "tbl" / "jp.tbl"
 SCRIPT = ROOT / "script"
 ASAR = ROOT / "tools" / "asar" / "asar.exe"  # asar 1.91, github.com/RPGHacker/asar/releases (gitignored)
-ASM = ROOT / "asm" / "vwf.asm"
+ASM = ROOT / "asm" / "main.asm"
 LANG = "en"  # text field read from script/*.json; empty -> the jp text
 TEXT_LO, TEXT_HI = 0x1AA38, 0x1BE33
 TEXT_FREE = (0x1DB7A, 0x20000)  # bank $83 free space, trap-tested (docs/re/rom.md); text must stay in bank $83
 PROLOGUE_LO = 0x10D0C
 CHECKSUM = 0x7FDC  # LoROM header checksum complement + checksum
-GFX = {"G5": 9, "G4": 11, "G3": 13}  # directory entry whose tile block holds Japanese lettering
-BUF_PX = {"profile": 128}  # text buffer row width in px (asm/vwf.asm); others 23 tiles
+GFX = {"G5": 9, "G4": 11, "G3": 12}  # asset-directory entry holding Japanese lettering (docs/re/graphics.md)
+# prologue sequence script: sprite lists (count byte, then x, y, tile, attr per 16x16 sprite) of the heroine names
+NAME_SPRITES = [(0x10FA8, 8), (0x10FCA, 12), (0x10FFC, 12)]  # Rufu, Hamusu, Kairu
+STAFF_TYPO = (0x12D48, 0x12D72)  # "Charactor Design" x2 (names like "KATUTOSHI" are left as credited)
+BUF_PX ={"profile": 128}  # text buffer row width in px (asm/vwf.asm); others 23 tiles
 FILLER = "The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. "
 # glyph torture line (every printable ASCII + double spaces), shown instead of the marker of entry AA38 (ch1_h0)
 TORTURE = {"AA38": "!\"#$%&'()*+,-./0123456789:;<=>?@{n}ABCDEFGHIJKLMNOPQRSTUVWXYZ{n}"
@@ -128,27 +134,21 @@ def pack_prologue(rom, text):
     put(rom, PROLOGUE_LO, out + bytes(end - PROLOGUE_LO - len(out)), "prologue")
 
 
-def gfx_blocks(rom):
-    """{name: (file offset, end, stride, decompressed tiles)} for the graphics-text tile blocks."""
-    ents = {i: (off, typ) for i, off, typ in entries(rom)}
-    out = {}
-    for name, i in GFX.items():
-        off, typ = ents[i]
-        _, start = lz.decompress(rom, off, typ)  # tile block follows the map stream
-        tiles, end = lz.decompress(rom, start, typ)
-        out[name] = (start, end, rom[start + 2] | rom[start + 3] << 8, tiles)
-    return out
+def entry_blocks(rom, name):
+    """(file offset, type, map, tile-block offset, tiles, end) of asset-directory entry GFX[name]."""
+    off, typ = next((o, t) for i, o, t in entries(rom) if i == GFX[name])
+    mp, mid = lz.decompress(rom, off, typ)
+    chr_, end = lz.decompress(rom, mid, typ)
+    return off, typ, mp, mid, chr_, end
 
 
-def pack_gfx(rom, orig, tiles):
-    for name, data in tiles.items():
-        start, end, stride, old = orig[name]
-        if data == old:
-            continue
-        blk = lz.compress(data, stride)
-        if len(blk) > end - start:
-            raise SystemExit(f"{name}: compressed {len(blk)} bytes, slot holds {end - start}")
-        put(rom, start, blk, f"{name} tiles")
+def pack_entry(rom, name, mp, chr_):
+    """Recompress asset-directory entry GFX[name] (its map block, then its tile block right after) in place."""
+    off, _, _, mid, _, end = entry_blocks(rom, name)
+    blk = lz.compress(mp, rom[off + 2] | rom[off + 3] << 8) + lz.compress(chr_, rom[mid + 2] | rom[mid + 3] << 8)
+    if len(blk) > end - off:
+        raise SystemExit(f"{name}: compressed {len(blk)} bytes, slot holds {end - off}")
+    put(rom, off, blk, f"{name} map+tiles")
 
 
 def marker(e, adv, full):
@@ -182,7 +182,7 @@ def full_markers(dialogue):
 
 
 def assemble(rom, glyphs):
-    """Write the font/width binaries, run asar on asm/vwf.asm over the ROM, return the patched bytes."""
+    """Write the font/width binaries, run asar on asm/main.asm over the ROM, return the patched bytes."""
     if not ASAR.is_file():
         raise SystemExit(f"{ASAR} missing: unzip asar.exe from github.com/RPGHacker/asar/releases (v1.91)")
     tmp = OUT.parent / "_asar.sfc"
@@ -201,7 +201,7 @@ def assemble(rom, glyphs):
         while j < len(diff) and diff[j] - diff[j - 1] < 32:
             j += 1
         lo, hi = diff[0], diff[j - 1] + 1
-        WRITES.append((lo, _ORIG[lo:hi], out[lo:hi], "asm/vwf.asm"))
+        WRITES.append((lo, _ORIG[lo:hi], out[lo:hi], "asm"))
         del diff[:j]
     return bytearray(out)
 
@@ -215,9 +215,6 @@ def build(orig, identity=False):
     rom = bytearray(orig)
     dialogue = load("dialogue")
     prologue = load("prologue")[0]
-    gfx = gfx_blocks(orig)
-    tiles = {name: g[3] for name, g in gfx.items()}
-    # phase 7: tiles come from the edited graphics instead of the ROM
     if identity:
         pack_text(rom, {int(e["id"], 16): e["jp"] for e in dialogue}, Table.load(TBL))
         pack_prologue(rom, prologue["jp"])
@@ -229,8 +226,20 @@ def build(orig, identity=False):
                  for e in dialogue}
         pack_text(rom, texts, Table.load(font.EN_TBL), ((TEXT_LO, TEXT_HI), TEXT_FREE))
         pack_prologue(rom, prologue["jp"])  # phase 7: the English prologue needs its own renderer (text.md)
+        gfx = load("graphics")
+        pack_entry(rom, "G4", *gfx_text.chapter_card(orig, gfx))
+        _, _, mp, _, chr_, _ = entry_blocks(orig, "G3")
+        pack_entry(rom, "G3", *gfx_text.orb_names(orig, gfx, mp, chr_))
+        _, _, mp, _, chr_, _ = entry_blocks(orig, "G5")
+        mp, chr_, lists = gfx_text.prologue_names(orig, gfx, mp, chr_)
+        pack_entry(rom, "G5", mp, chr_)
+        for (at, count), entries_ in zip(NAME_SPRITES, lists):
+            assert orig[at - 1] == count and len(entries_) == 4 * count, (hex(at), len(entries_))
+            put(rom, at, entries_, "prologue name sprites")
+        for at in STAFF_TYPO:  # staff roll (ASCII, already English): fix the original's typo, same length
+            assert orig[at:at + 9] == b"Charactor"
+            put(rom, at, b"Character", "staff roll typo")
         rom = assemble(rom, glyphs)
-    pack_gfx(rom, gfx, tiles)
     put(rom, CHECKSUM, bps.snes_checksum(rom)[0][CHECKSUM:CHECKSUM + 4], "header checksum")
     return bytes(rom)
 

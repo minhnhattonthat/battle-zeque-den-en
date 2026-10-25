@@ -1,0 +1,21 @@
+{
+ "heroines": [
+  {"jp": "流風", "en": "Rufu", "block": [0, 0]},
+  {"jp": "波無寿", "en": "Hamusu", "block": [0, 8]},
+  {"jp": "河意留", "en": "Kairu", "block": [4, 0]}
+ ],
+ "prologue_names": [
+  {"jp": "流風", "en": "Rufu", "size": [64, 32], "at": [152, 160]},
+  {"jp": "波無寿", "en": "Hamusu", "size": [32, 96], "at": [168, 112], "rotate": true},
+  {"jp": "河意留", "en": "Kairu", "size": [32, 96], "at": [80, 112], "rotate": true}
+ ],
+ "chapter": {"jp": "第 / 章", "en": "Chapter"},
+ "titles": [
+  {"jp": "樹木騒擾", "en": "Trees in Turmoil"},
+  {"jp": "地氣鳴動", "en": "Rumbling Earth"},
+  {"jp": "奔流喧轟", "en": "Roaring Torrent"},
+  {"jp": "火焔盛衰", "en": "Flames Rise\nand Fall"},
+  {"jp": "砂塵空漠", "en": "Desolate Sands"},
+  {"jp": "天涯抜束", "en": "Unbound at\nHeaven's Edge"}
+ ]
+}

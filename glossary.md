@@ -54,6 +54,17 @@ SHUMISEN, TOUTETSU) are developer romanizations, inconsistent with themselves, s
 | おっちゃん | Uncle | | Hamusu's name for Genbu (an old family friend, not a relative) | Mister, old man |
 | 霊山 / 霊峰 | sacred mountain / sacred peak | | | |
 
+## Graphics text (chapter cards, names drawn as tiles; source `script/graphics.json`, drawn by `tools/gfx_text.py`)
+| JP | EN | max | notes | Avoid |
+|---|---|---|---|---|
+| (第N章) | Chapter N | 56 px word | card header, 8x16 staff-roll font | |
+| (樹木騒擾) | Trees in Turmoil | 120 px/line, 2 lines | chapter 1 card | |
+| (地氣鳴動) | Rumbling Earth | 120 px/line | chapter 2 | |
+| (奔流喧轟) | Roaring Torrent | 120 px/line | chapter 3 | |
+| (火焔盛衰) | Flames Rise / and Fall | 120 px/line | chapter 4 (rise and fall of flame) | |
+| (砂塵空漠) | Desolate Sands | 120 px/line | chapter 5 | |
+| (天涯抜束) | Unbound at / Heaven's Edge | 120 px/line | chapter 6; 3rd kanji is 抜 (扌 radical, zoomed VRAM), not 放 | |
+
 ## Decisions from earlier batches
 - b001 黄龍のオヤジ -> "that old geezer Koryu" (Genbu mocking; "old man" is reserved-avoid only for おっちゃん lines).
 - b001 Genbu's ぐふっ/ぐへっ -> "Heh!"/"Heh..." (laughs); ぐふう -> "Gwah!" for every dying gasp.
