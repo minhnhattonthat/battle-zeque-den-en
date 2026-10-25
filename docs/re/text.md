@@ -87,11 +87,23 @@ Slot layout: three slots per scene, one per heroine (op 01 low byte 00 = 波無�
   tiles $A000; hscroll moves (344 at f2500). Each glyph (16x16 from $84:A4BC + i*32, shadow added as in the dialogue)
   gets 4 new tiles in order (0x12D, 0x131, ...), written through the WRAM port $2180, and one 2x2 map cell; a
   column = one line, top down, 3 tile columns apart, lines right to left; the BG scrolls to follow.
-- **English plan (phase 7, not built yet):** horizontal lines need the layout changed (cell step x instead of y,
-  0D = next row instead of next column, BG3 vscroll instead of hscroll) and VWF lines pre-rendered by the build
-  into 16x16 cells that the existing drawer copies (the SJIS lookup lists map each cell code to a cell). Check
-  how many tiles the allocator can hand out before it reaches other BG3/BG4 tiles. Budget in `tools/boxes.py`
-  is a guess until then.
+- Engine (phase 7, **verified** by disassembly + probes): the sequence step at `$82:8373` sets `$40-$42` to the
+  text (`LDX #$8D1A`, bank by `PHK; PLA`), reads 9 inline arg bytes with `JSR $D507` (`$52` frame countdown 0x550,
+  `$54`/`$56` BG3 h/v scroll x4, `$5C`/`$5D` their signed per-frame speeds, `$3B`), then `JSR $CFAE`: per line
+  `JSR $D0DD` draws glyphs into `$7F:0600` (4 tiles per cell, `$24` cells), DMAs them to VRAM word `$5000+$4E`
+  (wraps after 127 cells) and waits `$36` = 48 frames; NMI (`$82:BAB5` -> `$BE25`) then writes the map column.
+  `$82:BF2B` (NMI, while `$52` != 0) advances the scroll values into the HDMA table.
+- **Horizontal mode** `$82:D039` (`$37` = 1; no caller in the original): rows via NMI `$BE70` (map `$7C00 +
+  32*row`, row = `$34`, 2 map rows per line, padded to 14 cells), glyphs drawn TL/TR/BL/BR without shadow. It was
+  unfinished: its loop never calls `$D0DD` (stale `$24` -> runaway DMA over all VRAM), never sets VMAIN, waits 1
+  frame per row and never wraps `$4E`.
+- **English (built):** `tools/build.py` PRO_* patches: `JSR $D039` with `$34` = 0; `$82:D054` (the unused
+  mode-2 branch) -> `JSR $D0DD; LDA #$80; STA $2115`; 32 frames per row; text at the end of `$83` free space;
+  scroll args hscroll centring the block, vscroll 16 + 0.5 px/frame. `gfx_text.prologue` draws each line with the
+  dialogue VWF font, left-aligned, into 16x16 cells stored in the prologue font's slots (205 slots by SJIS code;
+  ~110 used), all lines <= 127 cells drawn. Every text row must be overwritten by a blank row (16 later) before
+  the drawer returns, else it scrolls back into the next scenes; `PRO_ROWS`/`PRO_LEAD` set that. The jp `[04]…`
+  pacing and the 光/闇 colour codes are not carried over (this mode draws one colour).
 
 ## Free space for text (trap-tested in phase 5, `rom.md`; `build.py` packs the slot, then `$83:DB7A+`)
 

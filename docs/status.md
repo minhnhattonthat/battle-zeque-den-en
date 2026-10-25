@@ -2,7 +2,7 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 6 (translate) done 2026-10-25. Next: phase 7 (insert, fit, check).
+- **Phase:** 7 (insert, fit, check) done 2026-10-25. Next: phase 8 (QA in the emulator).
 - **Done (phase 1):** all in `docs/re/` (index `docs/re/README.md`), facts pinned by `tests/test_recon.py`.
   - ROM: LoROM FastROM 1.5 MB, header says 2 MB; free-space candidates listed, none trap-tested (`rom.md`).
   - Dialogue: one block in bank $83 (0x1AA38-0x1BE33, 143 strings, font-cell encoding), script VM table
@@ -56,26 +56,35 @@ Updated at the end of every session. Keep it to what the next session needs; his
   - 2 translator agents (b001 72, b002 71), 1 reviewer over both: Approved, 0 Critical/Important. Applied the
     accuracy Minors; deferred to the phase-9 polish pass: Genbu "darn"/"heck" maybe stronger (AFF0, AF3C), B93C
     "Byakkooo!" vs "Byakko!", B1FD "--" dash style.
-  - Prologue English drafted in `script/prologue.json` `en` (15 lines, same blank-line layout, no `[XX]` pacing or
-    colour codes yet); `build.py` still packs the jp prologue until phase 7 builds its renderer.
-- **Next (phase 7, insert/fit/check):** build lint (width per line from `en`, control codes vs jp, ASCII), `romdiff.py`
-  with allowed ranges (text slot, `$83:DB7A+` free space, hook sites, font/VWF code at `$80:E580`); graphics text
-  G1-G5 (chapter cards, titles, game over, staff roll typo "Charactor"); English prologue: plan in
-  `docs/re/text.md` §Prologue (BG3, 4 tiles per 16x16 glyph, columns right to left, hscroll; the jp has `[04]…[03]`
-  pacing and `[03]/[02]` colour codes around 光/闇 to carry over).
+  - Prologue English drafted in `script/prologue.json` `en` (15 lines, same blank-line layout).
+- **Done (phase 7):** build green: lint clean, control codes matched, every write logged and inside `tools/ranges.txt`.
+  - Lint (`batches.entry_errors`, `tests/test_lint.py`): ASCII, unknown codes, effect-code parity, widths, stub last
+    lines (balanced re-wrap), glossary across line breaks.
+  - `build.py` logs every write (`put` -> `build/writes.txt`); `tests/test_romdiff.py`: `romdiff.py --writes` clean,
+    writes inside `tools/ranges.txt`, no branch into rewritten bank-$83 hook spans (bank-$82 `D054` span scanned by
+    hand: no entry).
+  - Graphics text (`tools/gfx_text.py`, `script/graphics.json`, `tests/test_gfx.py`): G4 chapter cards (new layout,
+    `asm/card.asm`), G3 select-orb names, G5 prologue heroine names + sprite lists; staff-roll "Charactor" fixed.
+    G1/G2 logo kept (D5). `lz.compress` now has stride/count ops: edited blocks fit in place.
+  - English prologue: the drawer's dormant horizontal mode, finished by 5 small patches; VWF lines pre-drawn into the
+    prologue font slots, rows scroll up ~f960-f2060, cleared before the eyes scene (`docs/re/text.md` §Prologue,
+    `tests/test_gfx.py::test_prologue_lines_read_back`). Old jp prologue text blanked (`jp_left --sjis`: only noise).
+  - Warp sweep on the final build: 62/62 reached, states regenerated (`work/states/`). New probes in `tools/lua/`:
+    `writes.lua` (WRAM write log; IO registers are not caught), `execs.lua`, `ramdumps_at.lua`.
+- **Next (phase 8, QA):** routes through changed scenes with the debug tool -> contact sheets -> visual-qa
+  subagents -> `qa_gate.py check` exit 0; zoomed cold-boot shots of every chapter card, prologue names, staff roll.
 - **Open bugs:** none.
 - **Notes for later phases:**
-  - `lz.compress` (no stride copies / replays) is 5-9% bigger than the game's blocks (G3 13905 vs 12785 slot,
-    G4 4900 vs 4678, G5 2420 vs 2305), so an edited block won't fit in place. Either add op 8/9 matching or move
-    the entry (map + its tile block, which follows the map stream) to free space and repoint the directory entry.
   - Warp shots are every 60 frames and the warp mashes A every 40, so a dialogue page can fall between shots; for
     phase-8 QA pass `--var SHOT_EVERY_W=20` or slow the mash.
   - Regenerate states with `warp_all.py --rom build/bzd_en.sfc --states` after any code/font/graphics change.
 - **Waiting on the user:**
   - Not verified: the Mesen GUI in `tools/mesen/` taking keyboard input (headless scripted input works). Owner: open
     `tools/mesen/Mesen.exe` once and check the arrow keys/Z/X work.
-  - Staff roll is already English but has original typos ("Charactor Design", "KATUTOSHI"). Default: fix
-    "Charactor" -> "Character" in phase 7, leave personal names as written.
-  - Sixth chapter title: the card shot (warp `ch6_h0`) reads 天涯放束; translator to confirm from the zoomed card.
+  - Staff roll typos: "Charactor" -> "Character" done (phase 7); "KATUTOSHI" left as credited.
+  - Sixth chapter title 天涯抜束 drawn as "Unbound at / Heaven's Edge" (two lines; "Breaking Free..." was 1 px
+    too wide). Change in `script/graphics.json` if wanted.
+  - Prologue layout default (phase 7): horizontal rows, left-aligned, scrolling up, one colour (the jp's
+    `[04]…` pacing and the 光/闇 colour accents are not carried over: this drawer mode has one colour).
   - Translation defaults picked in phase 6 (no ruling asked; change in `glossary.md` if wanted): Hamusu's
     おっちゃん -> "Uncle"; 朱雀様 -> "Suzaku-sama" (D1 keeps honorifics); light swearing kept mild ("darn", "heck").

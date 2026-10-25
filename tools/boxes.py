@@ -13,6 +13,7 @@ BOXES = {
     "toutetsu": {"px": 184, "lines": 3, "measured": "work/qa/m1/boss6_h0 f002020 (textpx: x 39..220)"},
     # profile screens: 16-tile buffer rows from x 128 to the screen edge, 9 rows used by the jp text
     "profile": {"px": 128, "lines": 9, "measured": "work/qa/m1/profile_h0 (125-px marker lines from x 127)"},
-    # vertical SJIS prologue: own renderer, English layout planned for phase 7 (docs/re/text.md §Prologue)
-    "prologue": {"px": 208, "lines": 15, "measured": "guess"},
+    # prologue in rows (phase 7, docs/re/text.md §Prologue): 14 16x16 cells per row, 127 cells for all lines
+    # (gfx_text.prologue checks both); ~11 rows on screen at once, scrolling up
+    "prologue": {"px": 224, "lines": 11, "measured": "work/qa/warp/prologue_title f001440 (block x 40..213)"},
 }

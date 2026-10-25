@@ -35,3 +35,36 @@ def test_built_entries_decode_to_the_drawings():
         _, _, got_mp, _, got_chr, _ = build.entry_blocks(rom, name)
         assert (got_mp, got_chr) == (mp, chr_), name
     assert rom.count(b"Charactor") == 0 and rom.count(b"Character Design") == 2
+
+
+def drawer_slot(rom, code):
+    """Font slot the prologue drawer finds for an SJIS code ($82:D13F): from the list its range picks, word by word."""
+    o, slot = gfx_text.PRO_LISTS[gfx_text._pro_list(code)]
+    while rom[o:o + 2] != code:
+        assert o < 0x15500, code.hex()
+        o, slot = o + 2, slot + 1
+    return slot
+
+
+@needs_rom
+@needs_asar
+def test_prologue_lines_read_back():
+    """Walk the built prologue as the horizontal drawer does: each line's cells, looked up by code, carry exactly the
+    ink of its English characters, and all lines together fit the BG3 tile area."""
+    rom = build.build(build.ROM.read_bytes())
+    ptr = int.from_bytes(rom[build.PRO_PTR:build.PRO_PTR + 2], "little")
+    o = (rom[build.PRO_BANK + 1] & 0x7F) * 0x8000 + ptr - 0x8000
+    ink, lines, drawn = 0, [], 0
+    while rom[o]:
+        if rom[o] == 0x0D:
+            lines.append(ink)
+            ink, o = 0, o + 1
+            continue
+        code, o, drawn = rom[o:o + 2], o + 2, drawn + 1
+        if code != b"\x81\x40":
+            at = build.PRO_FONT + 32 * drawer_slot(rom, code)
+            ink += sum(bin(b).count("1") for b in rom[at:at + 32])
+    glyphs = {ch: rows for ch, rows, _ in build.font.load()}
+    want = [sum(bin(r).count("1") for ch in ln for r in glyphs[ch])
+            for ln in build.load("prologue")[0]["en"].strip("\n").split("\n") if ln]
+    assert [n for n in lines if n] == want and drawn <= gfx_text.PRO_CELLS

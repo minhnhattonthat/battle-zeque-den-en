@@ -10,6 +10,8 @@ Lines are drawn proportionally: each glyph trimmed to its inked columns, then GA
 import sys
 from pathlib import Path
 
+import font as vwf  # font() below is the 8x16 font
+
 ROOT = Path(__file__).resolve().parent.parent
 FONT_AT = 0x25A5E
 GAP = 1
@@ -172,6 +174,66 @@ def prologue_names(rom, gfx, mp, chr_):
                 entries += bytes([x0 + 16 * bx, y0 + 16 * by, 32 * sr + 2 * sc, 0x30])
         lists.append(bytes(entries))
     return (*redraw(mp, chr_, cells, 4), lists)
+
+
+PRO_W = 14  # 16x16 cells per row in the prologue drawer's horizontal mode (it pads rows to 14, $82:BED8)
+PRO_CELLS = 127  # cells of 4 tiles in VRAM $A010-$BFFF, the BG3 tile area the vertical mode wraps in ($82:D000)
+PRO_LISTS = ((0x15281, 0), (0x15315, 0x49), (0x153A7, 0x91))  # SJIS lookup lists: file offset, first glyph slot
+
+
+def _pro_list(code):
+    """Index into PRO_LISTS the drawer searches for an SJIS code ($82:D13F)."""
+    big = code[0] << 8 | code[1]
+    return 2 if code in (b"\x81\x75", b"\x81\x76", b"\x81\x58") or big >= 0x889F else 1 if big >= 0x8341 else 0
+
+
+def prologue_slots(rom):
+    """[(font slot, SJIS code)] of every glyph the prologue drawer finds by code: the entries of each lookup list
+    whose code makes the drawer search that list."""
+    out = []
+    for i, (o, first) in enumerate(PRO_LISTS):
+        while rom[o:o + 2] != b"\0\0":
+            if _pro_list(rom[o:o + 2]) == i and all(c != rom[o:o + 2] for _, c in out):  # first match wins
+                out.append((first + (o - PRO_LISTS[i][0]) // 2, rom[o:o + 2]))
+            o += 2
+    return out
+
+
+def prologue(rom, text, glyphs):
+    """English prologue for the horizontal mode of its drawer ($82:D039, docs/re/text.md §Prologue): each line drawn
+    with the dialogue VWF font (no shadow), left-aligned in PRO_W 16x16 cells (every cell drawn, blank or not, takes
+    4 VRAM tiles from $A010 and this mode never wraps them: PRO_CELLS in all; the build centres the block by
+    hscroll). Each distinct inked cell takes a font slot (1bpp, 32 bytes: the left 8 px column top down, then the
+    right one) and is written as that slot's SJIS code; blank cells are 8140, trailing ones dropped.
+    Returns (script bytes: lines ending 0D, then 00; {slot: glyph bytes}; widest line in px)."""
+    rows_of, adv = {ch: rows for ch, rows, _ in glyphs}, vwf.advance_map(glyphs)
+    slots, cells, out, w, drawn, widest = prologue_slots(rom), {}, bytearray(), 16 * PRO_W, 0, 0
+    for ln in text.split("\n"):
+        tw = vwf.text_width(ln, adv)
+        if tw > w:
+            raise SystemExit(f"prologue {ln!r}: {tw} px, room for {w}")
+        px, x, widest = [0] * 16, 0, max(widest, tw)
+        for ch in ln:
+            for y, r in enumerate(rows_of[ch]):
+                px[y + 2] |= r << (w - 16 - x)  # r: 16 bits, MSB = pixel 0
+            x += adv[ch]
+        line = [bytes(px[y] >> (w - 8 - 16 * j - 8 * h) & 0xFF for h in (0, 1) for y in range(16))
+                for j in range(PRO_W)]
+        while line and not any(line[-1]):
+            line.pop()
+        drawn += len(line)
+        for g in line:
+            if g in cells or not any(g):
+                out += cells[g][1] if any(g) else b"\x81\x40"
+                continue
+            if len(cells) == len(slots):
+                raise SystemExit(f"prologue needs more than {len(slots)} glyph cells")
+            cells[g] = slots[len(cells)]
+            out += cells[g][1]
+        out.append(0x0D)
+    if drawn > PRO_CELLS:
+        raise SystemExit(f"prologue draws {drawn} cells, BG3 holds {PRO_CELLS}")
+    return bytes(out) + b"\0", {slot: g for g, (slot, _) in cells.items()}, widest
 
 
 CARD_STRIP = 15  # tiles per row the card loader copies from the dir-11 map (VRAM tile columns 1-15)

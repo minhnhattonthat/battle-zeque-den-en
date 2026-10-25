@@ -2,10 +2,17 @@
 # tools/build.py (build/writes.txt) lies in one of them and passes `romdiff.py ORIG NEW --writes`.
 007FDC-007FDF  header checksum
 00657B-007FBF  $80:E57B free space: VWF code (asm/vwf.asm, org $80E580)
+010375-010376  prologue: text bank (PHK; PLA -> LDA #$83)
+01037C-01037D  prologue: text address (LDX operand)
+010383-01038B  prologue: scroll args of JSR $D507
+010396-010396  prologue: first column $3D -> first row 0
+01039A-01039B  prologue: JSR $CFAE -> $D039 (horizontal mode)
 010D0C-010E22  prologue slot (SJIS sequence script text)
 010FA8-01102B  prologue sequence script: heroine-name sprite lists (x, y, tile, attr)
 012D48-012D7A  staff roll strings ("Charactor" typo x2)
 013585-013589  chapter card hook $82:B585 (JSL card_draw; RTS)
+015054-015063  prologue: $82:D054 in the horizontal mode: JSR $D0DD (draw the line), VMAIN
+0150C8-0150C8  prologue: frames per row in the horizontal mode ($82:D0C7)
 019F01-019F05  glyph draw hook $83:9F01 (JSL vwf_draw; RTS)
 01A51A-01A51B  {page} handler $83:A51A
 01A561-01A5AD  newline handler $83:A561, rewritten in place
@@ -13,6 +20,7 @@
 01BEE1-01C2D3  cutscene scripts: text pointer operands
 01DB7A-01FFFF  $83:DB7A free space: overflow text
 02008C-0221E3  dialogue font glyphs $84:808C (VWF slots), up to the 8x8 font at 0x221E4
+0224BC-023E5B  prologue font $84:A4BC: English line cells (205 slots x 32 bytes)
 02C16A-02CB2F  G5 prologue name sprites: asset directory entry 9 map + tile blocks
 02F90F-030C5B  G4 chapter cards: asset directory entry 11 map + tile blocks
 030C5C-031B15  G3 select-screen name sprites: asset directory entry 12 map + tile blocks

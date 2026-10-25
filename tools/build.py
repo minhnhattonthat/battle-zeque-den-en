@@ -46,6 +46,27 @@ GFX = {"G5": 9, "G4": 11, "G3": 12}  # asset-directory entry holding Japanese le
 # prologue sequence script: sprite lists (count byte, then x, y, tile, attr per 16x16 sprite) of the heroine names
 NAME_SPRITES = [(0x10FA8, 8), (0x10FCA, 12), (0x10FFC, 12)]  # Rufu, Hamusu, Kairu
 STAFF_TYPO = (0x12D48, 0x12D72)  # "Charactor Design" x2 (names like "KATUTOSHI" are left as credited)
+# English prologue: rows in the drawer's dormant horizontal mode, scrolling up (docs/re/text.md §Prologue)
+PRO_BANK = 0x10375  # PHK; PLA (text bank -> $42) -> LDA #$83: the text sits at the end of TEXT_FREE
+PRO_PTR = 0x1037C  # LDX #$8D1A operand: text address -> $40
+PRO_ARGS = 0x10383  # inline args of JSR $D507: $52 frames, $54/$56 BG3 h/v scroll x4, $5C/$5D their speeds, $3B
+PRO_ROW0 = 0x10396  # LDA #$3D; STA $34: first column -> first map row 0
+PRO_CALL = 0x1039A  # JSR $CFAE (vertical columns) operand -> $D039 (rows)
+# $82:D054, in $D039: its line loop never draws (no JSR $D0DD, so $24 is stale: a runaway DMA). The dormant mode-2
+# branch there (CMP #$05 ...) -> JSR $D0DD; LDA #$80; STA $2115 (VMAIN, which only the vertical mode sets); NOPs
+PRO_DRAW = 0x15054
+PRO_DRAW_CODE = bytes.fromhex("20ddd0" "a980" "8d1521" "eaeaeaeaeaeaeaea")
+PRO_WAIT = 0x150C8  # LDA #$01 before STA $36: frames per row in the horizontal mode
+PRO_FONT = 0x224BC  # $84:A4BC, prologue font: 32 bytes per slot
+PRO_FRAMES = 32  # frames per row: 16 px at 0.5 px a frame
+# Rows in all: 42 x 32 frames ~ the original's 29 columns x 48 (the scene goes on a fixed time after the drawer
+# returns). The BG3 map is 16 rows: a row stays in it until the row drawn 16 later overwrites it, so the last text
+# row must be 16 before the end, else it scrolls back in and stays over the next scenes (scrolling stops when $52
+# runs out). Text rows start after PRO_LEAD blank ones; a blank line in the text is 2 blank rows.
+PRO_ROWS, PRO_LEAD = 42, 4
+# args: $52 as the original; $54 hscroll x4 (set by the build: centres the widest line); vscroll 16, then 0.5 px a
+# frame ($5D = 2), puts each row 16 px below the screen when drawn; $3B as the original
+PRO_SCROLL = bytes.fromhex("5005" "0000" "4000" "00" "02" "02")
 BUF_PX ={"profile": 128}  # text buffer row width in px (asm/vwf.asm); others 23 tiles
 FILLER = "The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs. "
 # glyph torture line (every printable ASCII + double spaces), shown instead of the marker of entry AA38 (ch1_h0)
@@ -224,8 +245,32 @@ def build(orig, identity=False):
         full = full_markers(dialogue)
         texts = {int(e["id"], 16): e[LANG] or TORTURE.get(e["id"]) or marker(e, adv, e["id"] in full)
                  for e in dialogue}
-        pack_text(rom, texts, Table.load(font.EN_TBL), ((TEXT_LO, TEXT_HI), TEXT_FREE))
-        pack_prologue(rom, prologue["jp"])  # phase 7: the English prologue needs its own renderer (text.md)
+        free_hi = TEXT_FREE[1]
+        if prologue[LANG]:
+            lines = [""] * PRO_LEAD + [r for ln in prologue[LANG].strip("\n").split("\n")
+                                       for r in ([ln] if ln else ["", ""])]
+            if len(lines) + 16 > PRO_ROWS:
+                raise SystemExit(f"prologue: {len(lines)} rows, at most {PRO_ROWS - 16}")
+            data, cells, widest = gfx_text.prologue(orig, "\n".join(lines + [""] * (PRO_ROWS - len(lines))), glyphs)
+            scroll = bytearray(PRO_SCROLL)
+            scroll[2:4] = (4 * (256 - (256 - widest) // 2)).to_bytes(2, "little")
+            free_hi -= len(data)
+            put(rom, free_hi, data, "prologue")
+            for slot, g in cells.items():
+                put(rom, PRO_FONT + 32 * slot, g, "prologue glyph")
+            for at, old, new in ((PRO_BANK, "4b68", bytes([0xA9, free_hi >> 15 | 0x80])),
+                                 (PRO_PTR, "1a8d", (free_hi & 0x7FFF | 0x8000).to_bytes(2, "little")),
+                                 (PRO_ARGS, "5005" "0000" "b003" "fe" "00" "02", scroll),
+                                 (PRO_ROW0, "3d", b"\0"), (PRO_CALL, "aecf", bytes.fromhex("39d0")),
+                                 (PRO_DRAW, "c905d00ca9028537c220e640e22080e7", PRO_DRAW_CODE),
+                                 (PRO_WAIT, "01", bytes([PRO_FRAMES]))):
+                assert orig[at:at + len(new)].hex() == old, hex(at)
+                put(rom, at, new, "prologue setup")
+            # the jp text ($82:8D1A on; the 14 bytes before it are not text) is no longer read: blank it
+            put(rom, PROLOGUE_LO + 14, bytes(prologue_end(orig) - PROLOGUE_LO - 14), "prologue: old jp text")
+        else:
+            pack_prologue(rom, prologue["jp"])
+        pack_text(rom, texts, Table.load(font.EN_TBL), ((TEXT_LO, TEXT_HI), (TEXT_FREE[0], free_hi)))
         gfx = load("graphics")
         pack_entry(rom, "G4", *gfx_text.chapter_card(orig, gfx))
         _, _, mp, _, chr_, _ = entry_blocks(orig, "G3")
