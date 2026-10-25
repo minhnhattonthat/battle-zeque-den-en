@@ -54,5 +54,5 @@ def lines():
 if __name__ == "__main__":
     p = ROOT / "tbl" / "jp.tbl"
     p.parent.mkdir(exist_ok=True)
-    p.write_text("\n".join(lines()) + "\n", encoding="utf-8")
+    p.write_text("\n".join(lines()) + "\n", encoding="utf-8", newline="\n")
     print(p)
