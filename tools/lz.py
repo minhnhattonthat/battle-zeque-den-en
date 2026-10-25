@@ -98,12 +98,50 @@ def decompress(data, off, init=0):
     return bytes(out), pos
 
 
+def compress(data, stride):
+    """Block for decompress(): zero runs (op 0), byte repeats (op 1) and literals (ops 4/5).
+    shortcut: no stride copies (8-B) or stream replays (E/F), so output is larger than the game's; add op 8/9
+    matching if an edited block no longer fits its slot."""
+    out = bytearray(len(data).to_bytes(2, "little") + stride.to_bytes(2, "little"))
+    lit = bytearray()
+
+    def flush():
+        while lit:
+            chunk = lit[:32]
+            del lit[:32]
+            out.append(0x50 | len(chunk) - 17 if len(chunk) > 16 else 0x40 | len(chunk) - 1)
+            out.extend(chunk)
+
+    def run(i, b):
+        n = 0
+        while n < 16 and i + n < len(data) and data[i + n] == b:
+            n += 1
+        return n
+
+    i = 0
+    while i < len(data):
+        z = run(i, 0)
+        r = run(i, data[i - 1]) if i else 0
+        if max(z, r) >= 2:
+            flush()
+            out.append(z - 1 if z >= r else 0x10 | r - 1)
+            i += max(z, r)
+        else:
+            lit.append(data[i])
+            i += 1
+    flush()
+    return bytes(out)
+
+
 def selftest():
     # 4: 2 literals; 1: repeat x2; 7: last+3; 0: 2 zeros; E: replay stream bytes 4..7 (41 AA BB 11); 1: repeat x1
     blk = bytes([12, 0, 2, 0, 0x41, 0xAA, 0xBB, 0x11, 0x73, 0x01, 0xE0, 4, 0, 0x10])
     out, end = decompress(blk, 0)
     assert out == bytes([0xAA, 0xBB, 0xBB, 0xBB, 0xBE, 0, 0, 0xAA, 0xBB, 0xBB, 0xBB, 0xBB]), out.hex()
     assert end == len(blk), end
+    for raw in (b"", b"\x00" * 40, b"\x07" * 40 + bytes(range(70)) + b"\x00\x01\x01"):
+        blk = compress(raw, 8)
+        assert decompress(blk, 0) == (raw, len(blk)), raw.hex()
     print("selftest ok")
 
 

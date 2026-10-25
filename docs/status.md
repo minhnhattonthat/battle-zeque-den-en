@@ -2,7 +2,7 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 2 (debug tool) done 2026-10-25. Next: phase 3 (identity build). No build yet.
+- **Phase:** 3 (identity build) done 2026-10-25. Next: phase 4 (extract to `script/` JSON).
 - **Done (phase 1):** all in `docs/re/` (index `docs/re/README.md`), facts pinned by `tests/test_recon.py`.
   - ROM: LoROM FastROM 1.5 MB, header says 2 MB; free-space candidates listed, none trap-tested (`rom.md`).
   - Dialogue: one block in bank $83 (0x1AA38-0x1BE33, 143 strings, font-cell encoding), script VM table
@@ -17,12 +17,21 @@ Updated at the end of every session. Keep it to what the next session needs; his
   addresses against the ROM. Lua probes added in `tools/lua/` (vmentry, events, pctrace, peek, poke, player).
 - **Phase-1 gap found:** the idle-boot **prologue** is a second text system: vertical Shift-JIS text inline in a
   bank-$82 sequence script at file 0x10D0C, own font + SJIS lookup lists at 0x15281 (`text.md` §Prologue).
-  Phase 4 must extract it (13 lines) and phase 5 must handle its font. G5 (heroine names) shows in the
+  Phase 4 must extract it (15 lines) and phase 5 must handle its font. G5 (heroine names) shows in the
   prologue's art screens.
-- **Next (phase 3, identity build):** `tools/build.py` that checks `rom.sha1`, unpacks (text block, script
-  table, prologue text, G3/G4/G5 blocks via `lz.py`) and repacks with no edits -> byte-identical ROM, as a test.
+- **Done (phase 3):** `tools/build.py` checks `rom.sha1`, unpacks + repacks the dialogue block (strings back to
+  back, every script pointer rewritten), the prologue (SJIS, `[XX]` controls, `\n` = 0D; must fit its slot
+  0x10D0C-0x10E22), G3/G4/G5 tile blocks (unchanged -> original bytes, else `lz.compress`), fixes the header
+  checksum -> `build/bzd_en.sfc`, 0 bytes differ, smoke ok. `tests/test_build.py`: identity, compressor roundtrip
+  over every directory block. `bps.snes_checksum` fixed for 1.5 MB (mirrored sum; the plain sum was wrong).
+- **Next (phase 4, extract):** dump texts (`build.unpack_text`) and prologue (`build.unpack_prologue`) to
+  `script/*.json` with ids, speaker/slot info from `script_vm`; build reads JSON instead of the ROM (the
+  `# phase 4+` line in `build.build`); roundtrip test JSON -> bytes == original.
 - **Open bugs:** none.
 - **Notes for later phases:**
+  - `lz.compress` (no stride copies / replays) is 5-9% bigger than the game's blocks (G3 13905 vs 12785 slot,
+    G4 4900 vs 4678, G5 2420 vs 2305), so an edited block won't fit in place. Either add op 8/9 matching or move
+    the entry (map + its tile block, which follows the map stream) to free space and repoint the directory entry.
   - Warp shots are every 60 frames and the warp mashes A every 40, so a dialogue page can fall between shots; for
     phase-8 QA pass `--var SHOT_EVERY_W=20` or slow the mash.
   - Regenerate states with `warp_all.py --rom build/bzd_en.sfc --states` after any code/font/graphics change.

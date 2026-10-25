@@ -72,7 +72,7 @@ Slot layout: three slots per scene, one per heroine (op 01 low byte 00 = 波無�
 - Encoding: plain Shift-JIS pairs (81xx-9Fxx); 1-byte controls: 0D newline (two = blank line between pages),
   02/03/04 style or colour (02 before 闇, 03 normal, 04 before …), 06/07 sound (`JSL $83C2DE`), 10 pause (guess),
   00 end (guess). 8140 (full-width space) and 8175/8176 (「」) are special-cased at `$82:D13B`.
-- Text (13 lines): いにしえの予言者は語る / この世が滅びる時 / 天空と大地を支えている / 約束は破られ / …天空は叫び /
+- Text (15 lines; ends at the first 00 at file 0x10E22, after eleven 0D; `tools/build.py` unpacks/repacks it): いにしえの予言者は語る / この世が滅びる時 / 天空と大地を支えている / 約束は破られ / …天空は叫び /
   …大地が応える / …人々の心は乱れ / …あらゆるところに / …争いが生まれる / …そして…… / 滅びの兆しは /
   光と闇の / 二つの気が / 分かれることから / 始まると……
 - Its own font: SJIS lookup lists at file 0x15281 (hiragana), 0x15315 (katakana), 0x153A7 (kanji
