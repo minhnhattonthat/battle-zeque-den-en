@@ -2,7 +2,7 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 5 (engine spike + marker build) done 2026-10-25. Next: phase 6 (translate).
+- **Phase:** 6 (translate) done 2026-10-25. Next: phase 7 (insert, fit, check).
 - **Done (phase 1):** all in `docs/re/` (index `docs/re/README.md`), facts pinned by `tests/test_recon.py`.
   - ROM: LoROM FastROM 1.5 MB, header says 2 MB; free-space candidates listed, none trap-tested (`rom.md`).
   - Dialogue: one block in bank $83 (0x1AA38-0x1BE33, 143 strings, font-cell encoding), script VM table
@@ -44,14 +44,25 @@ Updated at the end of every session. Keep it to what the next session needs; his
   - Coverage: `tools/lua/textcover.lua` + `tools/textcover.py`: all 143 strings displayed in warps
     (`warp_all.py --out cover --var HOLD_W=9000 --lua tools/lua/textcover.lua`). `warp.lua` got `HOLD_W`,
     `warp_all.py` got `--lua/--var/--out`.
-- **Next (phase 6, translate):** translator brief: lines joined by `{n}` (no empty lines: a newline at column 0 is
-  ignored), each line <= the box's px budget (`font.text_width`), pages of 3 lines are automatic, `{page}` forces
-  a new page, keep `{c04}` where the jp has it and the final `{end}`. ASCII only (add glyphs to `fonts/vwf.txt`
-  for anything else, e.g. é or curly quotes). `[XX]` with two hex digits is a hex escape in tbl.py: avoid.
-  Consider letting the build wrap plain text by width instead of translators placing `{n}` (phase 7 lint either way).
-- **Prologue (phase 7):** English needs its own layout: plan in `docs/re/text.md` §Prologue (BG3, 4 tiles per
-  16x16 glyph, columns right to left, hscroll). Until then the build keeps the jp prologue (its font is separate,
-  so it still shows Japanese).
+- **Done (phase 6):** all 143 dialogue entries translated and merged into `script/dialogue.json` `en`; build is now
+  fully English dialogue (smoke ok, boss-1 and profile warps read correctly).
+  - `tools/batches.py`: split -> `work/tl/bNNN.tsv` (speaker/scene from `uses`), check (ids, ASCII, effect codes,
+    empty lines, word width, <=3 lines per page or 9 for profiles, glossary + Avoid, honorifics さん/様), merge
+    (greedy pixel wrap of paragraph English -> `{n}`), pairs (reviewer file), fit (dry run). `tests/test_batches.py`
+    checks every merged `en` fits its box and encodes.
+  - Docs: `docs/synopsis.md`, `docs/style-reference.md` (voices + chapter-1 pilot), `docs/translator-brief.md`,
+    `docs/reviewer-brief.md`; glossary: register/punctuation rules, terms (fire clan, pact of heaven and earth, war
+    god, desire, fate, Uncle, sacred mountain/peak), batch decisions.
+  - 2 translator agents (b001 72, b002 71), 1 reviewer over both: Approved, 0 Critical/Important. Applied the
+    accuracy Minors; deferred to the phase-9 polish pass: Genbu "darn"/"heck" maybe stronger (AFF0, AF3C), B93C
+    "Byakkooo!" vs "Byakko!", B1FD "--" dash style.
+  - Prologue English drafted in `script/prologue.json` `en` (15 lines, same blank-line layout, no `[XX]` pacing or
+    colour codes yet); `build.py` still packs the jp prologue until phase 7 builds its renderer.
+- **Next (phase 7, insert/fit/check):** build lint (width per line from `en`, control codes vs jp, ASCII), `romdiff.py`
+  with allowed ranges (text slot, `$83:DB7A+` free space, hook sites, font/VWF code at `$80:E580`); graphics text
+  G1-G5 (chapter cards, titles, game over, staff roll typo "Charactor"); English prologue: plan in
+  `docs/re/text.md` §Prologue (BG3, 4 tiles per 16x16 glyph, columns right to left, hscroll; the jp has `[04]…[03]`
+  pacing and `[03]/[02]` colour codes around 光/闇 to carry over).
 - **Open bugs:** none.
 - **Notes for later phases:**
   - `lz.compress` (no stride copies / replays) is 5-9% bigger than the game's blocks (G3 13905 vs 12785 slot,
@@ -66,3 +77,5 @@ Updated at the end of every session. Keep it to what the next session needs; his
   - Staff roll is already English but has original typos ("Charactor Design", "KATUTOSHI"). Default: fix
     "Charactor" -> "Character" in phase 7, leave personal names as written.
   - Sixth chapter title: the card shot (warp `ch6_h0`) reads 天涯放束; translator to confirm from the zoomed card.
+  - Translation defaults picked in phase 6 (no ruling asked; change in `glossary.md` if wanted): Hamusu's
+    おっちゃん -> "Uncle"; 朱雀様 -> "Suzaku-sama" (D1 keeps honorifics); light swearing kept mild ("darn", "heck").

@@ -60,8 +60,12 @@ def test_marker_build_hooks_and_text_pointers():
     assert rom[0x1A51A] == 0x4C and rom[0x1A561:0x1A563] == bytes.fromhex("E220")  # {page} -> JMP, newline rewritten
     assert rom[0x1A4F9:0x1A4FB] == orig[0x1A4F9:0x1A4FB]  # control-code jump table untouched
     t = Table.load(font.EN_TBL)
+    en = {int(e["id"], 16): e["en"] for e in build.load("dialogue")}
     for addr, uses in script_vm.text_pointers(orig).items():
         for _, at in uses:
             ptr = int.from_bytes(rom[script_vm.BANK + at + 1:script_vm.BANK + at + 3], "little")
             text, _ = t.decode(rom, ptr + script_vm.BANK)
-            assert text.replace("{c04}", "").startswith(f"[{addr:04X}]") or addr == 0xAA38, (hex(addr), text[:20])
+            if en[addr]:  # every pointer reaches its own entry: the translation, else its marker
+                assert text == en[addr], hex(addr)
+            else:
+                assert text.replace("{c04}", "").startswith(f"[{addr:04X}]") or addr == 0xAA38, (hex(addr), text[:20])

@@ -205,7 +205,7 @@ def build(orig, identity=False):
         texts = {int(e["id"], 16): e[LANG] or TORTURE.get(e["id"]) or marker(e, adv, e["id"] in full)
                  for e in dialogue}
         pack_text(rom, texts, Table.load(font.EN_TBL), ((TEXT_LO, TEXT_HI), TEXT_FREE))
-        pack_prologue(rom, prologue[LANG] or prologue["jp"])  # phase 5: prologue font still Japanese
+        pack_prologue(rom, prologue["jp"])  # phase 7: the English prologue needs its own renderer (text.md)
         rom = assemble(rom, glyphs)
     pack_gfx(rom, gfx, tiles)
     return bps.snes_checksum(rom)[0]

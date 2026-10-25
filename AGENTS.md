@@ -16,6 +16,7 @@ Skill: translate-retro-game; `python tools/skill.py` prints its folder. Read its
 - Text: `script/dialogue.json` + `prologue.json` (`tools/extract.py` writes missing files only; build reads `en`, else `jp`). Tables: `tbl/`. Glossary: `glossary.md`. RE notes index: `docs/re/README.md`. Fonts and their licences: `docs/fonts.md`.
 - RE helpers (phase 1): `tools/gen_tbl.py` (writes `tbl/jp.tbl`), `script_vm.py` (text pointers), `dump_text.py`, `lz.py` (codec), `dump_assets.py`/`render_assets.py`/`lz_scan.py`/`sweep_sheets.py` (graphics), `font_sheet.py`; Lua probes in `tools/lua/`.
 - Engine (phase 5): `asm/vwf.asm` (dialogue VWF, assembled by the build with `tools/asar/asar.exe`, asar 1.91 from github.com/RPGHacker/asar/releases, gitignored), font `fonts/vwf.txt` -> `tools/font.py` (writes `tbl/en.tbl`), box budgets `tools/boxes.py` (measure with `tools/textpx.py`), free-space trap probe `tools/lua/trap.lua` (`warp_all.py --lua`).
+- Translation (phase 6): `tools/batches.py` (split/check/merge/pairs/fit; `en` is wrapped by width at merge), briefs `docs/translator-brief.md`, `docs/reviewer-brief.md`, `docs/style-reference.md`, `docs/synopsis.md`.
 - Copied from the skill so a clone builds without it: `tools/tbl.py`, `tools/bps.py`, `tools/romdiff.py`. QA tools (`emu.py`, `play.py`, `qa_gate.py`, `jp_left.py`) run through `tools/skill.py`.
 
 ## Rulings

@@ -7,7 +7,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "きのうの夢{n}シュミセンを闇がおおう{n}あの夢は……{end}",
-  "en": ""
+  "en": "That dream last night... Darkness{n}covering Shumisen... What did that{n}dream mean...?{end}"
  },
  {
   "id": "AA57",
@@ -17,7 +17,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "まさしく滅びの兆し！{n}森羅万象すべての根源である{n}シュミセンへ急がなければ！{end}",
-  "en": ""
+  "en": "It has to be a sign of doom! I've{n}got to hurry to Shumisen, the{n}root of all creation!{end}"
  },
  {
   "id": "AA8A",
@@ -29,7 +29,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "なぜこの地を{n}通りぬけようとする？{end}",
-  "en": ""
+  "en": "Why do you seek to pass through{n}this land?{end}"
  },
  {
   "id": "AA9E",
@@ -39,7 +39,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "シュミセンを{n}闇がおおう夢を見た{page}むかし聞いたことがある{n}それが滅びの始まりだと……{end}",
-  "en": ""
+  "en": "I dreamed that darkness covered{n}Shumisen.{page}I heard it long ago: that's how{n}doom begins...{end}"
  },
  {
   "id": "AAD2",
@@ -51,7 +51,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "それを確かめに行こうと？{n}残念だが……{n}どんな理由があろうと{end}",
-  "en": ""
+  "en": "And you mean to go and see for{n}yourself? Too bad... Whatever{n}your reason may be,{end}"
  },
  {
   "id": "AAF7",
@@ -63,7 +63,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "また誰であろうと{n}ここから先へ{n}行かせるわけにはいかん！{end}",
-  "en": ""
+  "en": "and whoever you may be, I cannot{n}let you go one step further!{end}"
  },
  {
   "id": "AB17",
@@ -73,7 +73,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "世界が滅びても{n}かまわないというのか？{end}",
-  "en": ""
+  "en": "You're saying you don't care if the{n}world ends?{end}"
  },
  {
   "id": "AB2E",
@@ -85,7 +85,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "ふふふ……{n}オレは今を生きるのみ{n}未来に興味などはない！{end}",
-  "en": ""
+  "en": "Heh heh heh... I live only for the{n}now. The future holds no interest{n}for me!{end}"
  },
  {
   "id": "AB52",
@@ -95,7 +95,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "気持ち悪い夢{page}シュミのお山が{n}黒雲に覆われてた{n}あの夢は……{end}",
-  "en": ""
+  "en": "What a creepy dream...{page}Mount Shumi was all covered in{n}black clouds... What was that{n}about...?{end}"
  },
  {
   "id": "AB7C",
@@ -105,7 +105,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "この世の終わりが来るんだ！{n}そうなったらタイヘン……{n}シュミのお山に行ってみよう！{end}",
-  "en": ""
+  "en": "The end of the world is coming!{n}That would be awful... I'd better{n}go check on Mount Shumi!{end}"
  },
  {
   "id": "ABB0",
@@ -115,7 +115,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "シュミのお山を黒雲が覆う{n}そんな夢を見たんだ……{page}それはこの世の{n}終わりなんだって{end}",
-  "en": ""
+  "en": "I had a dream that black clouds{n}covered Mount Shumi...{page}They say that means the end of{n}the world!{end}"
  },
  {
   "id": "ABE4",
@@ -125,7 +125,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "けど……{n}ボクたちのこの世界が{n}終わっちゃうんだよ{end}",
-  "en": ""
+  "en": "But... this whole world of ours is{n}gonna end, you know!{end}"
  },
  {
   "id": "AC02",
@@ -135,7 +135,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "シュミセンを闇が覆った{n}夕べのあの夢は……{end}",
-  "en": ""
+  "en": "That dream last night, of{n}darkness shrouding Shumisen...{end}"
  },
  {
   "id": "AC1F",
@@ -145,7 +145,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "天地の約束が崩れる兆し{n}森羅万象の根源シュミセンで{n}その真偽を確かめねば！{end}",
-  "en": ""
+  "en": "A sign that the pact of heaven{n}and earth is crumbling.{page}At Shumisen, root of all creation, I{n}must learn the truth!{end}"
  },
  {
   "id": "AC57",
@@ -155,7 +155,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "シュミセンを闇が覆う{n}そんな夢を見たのです{page}それは滅亡の始まりと{n}聞きました{end}",
-  "en": ""
+  "en": "I dreamed that darkness{n}shrouded Shumisen.{page}I have heard that it marks the{n}beginning of the end.{end}"
  },
  {
   "id": "AC89",
@@ -165,7 +165,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "世界が滅んでも{n}かまわないというのですか？{end}",
-  "en": ""
+  "en": "Are you saying it is of no concern{n}to you if the world is destroyed?{end}"
  },
  {
   "id": "ACA2",
@@ -175,7 +175,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "ウッ……なんて凶悪な気だ！{n}この地下洞窟は悪鬼の巣窟か？{end}",
-  "en": ""
+  "en": "Ugh... What an evil aura! Is this{n}underground cave a den of{n}demons?{end}"
  },
  {
   "id": "ACCB",
@@ -187,7 +187,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "ムウ……！おまえがせがれを{n}倒したというのか？{end}",
-  "en": ""
+  "en": "Hmm...! So you are the one who{n}defeated my son?{end}"
  },
  {
   "id": "ACE5",
@@ -197,7 +197,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "戦いたくって{n}戦ったわけじゃないよ！{end}",
-  "en": ""
+  "en": "I didn't fight him because I{n}wanted to!{end}"
  },
  {
   "id": "ACFA",
@@ -209,7 +209,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "いずれにせよ　ここから先は{n}人間などが足をふみいれて{n}よい場所ではない！{end}",
-  "en": ""
+  "en": "Either way, beyond this point is{n}no place for mere humans to set{n}foot!{end}"
  },
  {
   "id": "AD25",
@@ -219,7 +219,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "なぜ？{n}ワケを聞かせてよ！{end}",
-  "en": ""
+  "en": "Why? Tell me the reason!{end}"
  },
  {
   "id": "AD35",
@@ -231,7 +231,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "知らぬ方が{n}幸せなことは多い……{end}",
-  "en": ""
+  "en": "There is much in this world you{n}are happier not knowing...{end}"
  },
  {
   "id": "AD4A",
@@ -243,7 +243,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "青龍を倒したくらいじゃ{n}すこしは腕がたつらしいの{n}わが名は黄龍、覚悟せい！{end}",
-  "en": ""
+  "en": "So you beat Seiryu... Seems you{n}have some skill after all. My name{n}is Koryu. Prepare yourself!{end}"
  },
  {
   "id": "AD79",
@@ -253,7 +253,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "ウワッ！{n}なんだろうこの強い気は{page}ここってば{n}悪者のたまり場かなァ{end}",
-  "en": ""
+  "en": "Whoa! What's this super strong{n}aura?{page}Is this place, like, where all the{n}bad guys hang out?{end}"
  },
  {
   "id": "ADA2",
@@ -263,7 +263,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "むこうが勝手に{n}仕掛けてきたんだよォ！{end}",
-  "en": ""
+  "en": "He's the one who started it, you{n}know!{end}"
  },
  {
   "id": "ADBA",
@@ -273,7 +273,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "どうして……{n}どうしていけないの？{end}",
-  "en": ""
+  "en": "Why...? Why can't I go?{end}"
  },
  {
   "id": "ADCC",
@@ -283,7 +283,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "すさまじく{n}邪悪な気に満ちている{page}この鍾乳洞は{n}邪念の吹きだまりのようだ！{end}",
-  "en": ""
+  "en": "This place is filled with a terribly{n}evil aura.{page}This limestone cave seems to be{n}where all wicked thoughts gather!{end}"
  },
  {
   "id": "ADFC",
@@ -293,7 +293,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "挑まれた戦いに{n}応じたまでのこと！{end}",
-  "en": ""
+  "en": "I merely answered a challenge{n}that was put to me!{end}"
  },
  {
   "id": "AE11",
@@ -303,7 +303,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "それはなぜかしら？{n}明確な理由を{n}お聞かせ願いたいわね！{end}",
-  "en": ""
+  "en": "And why is that, I wonder? I{n}would like to hear a clear reason!{end}"
  },
  {
   "id": "AE34",
@@ -313,7 +313,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "流れ流れて世界の果てへ……か{n}しょせん人生は川の流れの如く{n}まだまだこれからだぜ！{end}",
-  "en": ""
+  "en": "Drifting on and on to the end of{n}the world, huh...{page}Life's just like a flowing river{n}anyway. I'm only getting started!{end}"
  },
  {
   "id": "AE68",
@@ -323,7 +323,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "この川さえ越えてしまえば{n}もうすぐシュミセンが{n}見えてくるはずだ！{end}",
-  "en": ""
+  "en": "Once I'm across this river, I{n}should be able to see Shumisen{n}soon!{end}"
  },
  {
   "id": "AE90",
@@ -334,7 +334,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "ぐへへ……{n}黄龍のオヤジと青龍のヤロウが{n}倒されるとはなァ{end}",
-  "en": ""
+  "en": "Heh heh heh... Never thought that{n}old geezer Koryu and that punk{n}Seiryu would go down.{end}"
  },
  {
   "id": "AEB6",
@@ -344,7 +344,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "……またか{end}",
-  "en": ""
+  "en": "...Not another one.{end}"
  },
  {
   "id": "AEBC",
@@ -355,7 +355,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "ぐふっ！{n}口も達者なようじゃねえか{end}",
-  "en": ""
+  "en": "Heh! Got a smart mouth on ya,{n}too!{end}"
  },
  {
   "id": "AED1",
@@ -365,7 +365,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "アンタみたいなのは{n}この先にもいるのかい？{end}",
-  "en": ""
+  "en": "Are there more guys like you up{n}ahead?{end}"
  },
  {
   "id": "AEEA",
@@ -376,7 +376,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "ぐへっ……心配しなくても{n}おまえはここで死ぬ{n}さァ　かかってこい！{end}",
-  "en": ""
+  "en": "Heh... Never mind what's ahead.{n}You're dyin' right here. Now, come{n}at me!{end}"
  },
  {
   "id": "AF0F",
@@ -386,7 +386,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "あれ……この川の流れ{n}なんだかなつかしい眺めだなァ{n}ボクの生まれたとこみたいだ{end}",
-  "en": ""
+  "en": "Huh... this river... It looks kinda{n}familiar. It's just like the place{n}where I was born!{end}"
  },
  {
   "id": "AF3C",
@@ -396,7 +396,7 @@
   "box": "enemy",
   "heroine": "Hamusu",
   "jp": "んの？おめえ波無寿じゃねえか{n}なんだって{n}こんなトコにきたんだァ？{end}",
-  "en": ""
+  "en": "Huh? Ain't you Hamusu? What the{n}heck are ya doin' in a place like{n}this?{end}"
  },
  {
   "id": "AF62",
@@ -406,7 +406,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "いろいろあってさ{n}とにかくここを通してよ{n}おっちゃん！{end}",
-  "en": ""
+  "en": "Lots of stuff happened. Anyway,{n}let me through, Uncle!{end}"
  },
  {
   "id": "AF7F",
@@ -416,7 +416,7 @@
   "box": "enemy",
   "heroine": "Hamusu",
   "jp": "ダメダ！{n}いくら波無寿の頼みでも{n}それだけは聞けねえな{end}",
-  "en": ""
+  "en": "No way! Even if it's you askin',{n}Hamusu, that's the one thing I{n}can't do.{end}"
  },
  {
   "id": "AFA3",
@@ -426,7 +426,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "おっちゃんをやっつけてでも{n}ボク、行くからね！{end}",
-  "en": ""
+  "en": "Even if I have to beat you, Uncle,{n}I'm going!{end}"
  },
  {
   "id": "AFBD",
@@ -436,7 +436,7 @@
   "box": "enemy",
   "heroine": "Hamusu",
   "jp": "いつの間にかナマイキな口を{n}きくようになりやがって……{n}どりゃ、かかって来い波無寿！{end}",
-  "en": ""
+  "en": "Since when'd ya learn to mouth{n}off like that... Hyah! Come at me,{n}Hamusu!{end}"
  },
  {
   "id": "AFF0",
@@ -446,7 +446,7 @@
   "box": "enemy",
   "heroine": "Hamusu",
   "jp": "ぐへへ……{n}波無寿、おめえいつの間に{n}こんなに強くなりやがったんだ{end}",
-  "en": ""
+  "en": "Heh heh heh... Hamusu, when'd ya{n}get so darn strong?{end}"
  },
  {
   "id": "B017",
@@ -456,7 +456,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "ゴメンよ　おっちゃん！{n}本気だすつもりじゃ{n}なかったんだけど……{end}",
-  "en": ""
+  "en": "Sorry, Uncle! I didn't mean to go all{n}out...{end}"
  },
  {
   "id": "B03C",
@@ -466,7 +466,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "けど……{n}あんまりおっちゃんが{n}強いもんだから……{end}",
-  "en": ""
+  "en": "But... you were just so strong,{n}Uncle...{end}"
  },
  {
   "id": "B057",
@@ -476,7 +476,7 @@
   "box": "enemy",
   "heroine": "Hamusu",
   "jp": "波無寿、どういうつもりで{n}おめえがシュミセンに行こうと{n}しているのかは知らねえ{end}",
-  "en": ""
+  "en": "Hamusu, I dunno why you're tryin'{n}to get to Shumisen...{end}"
  },
  {
   "id": "B087",
@@ -486,7 +486,7 @@
   "box": "enemy",
   "heroine": "Hamusu",
   "jp": "しかしまだまだ遠いぜ{n}シュミセンはよォ……{n}……ぐふう！{end}",
-  "en": ""
+  "en": "But Shumisen's still a long way{n}off... ...Gwah!{end}"
  },
  {
   "id": "B0A8",
@@ -496,7 +496,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "おっちゃん！{n}おっちゃーん……{n}……おっちゃん……！{end}",
-  "en": ""
+  "en": "Uncle! Uncleee... ...Uncle...!{end}"
  },
  {
   "id": "B0C3",
@@ -506,7 +506,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "高きより低きへ……{n}くずれ始めた天地の約束も{n}川の流れにまでは及んでいない{end}",
-  "en": ""
+  "en": "Water flows from high to low...{page}The pact of heaven and earth has{n}begun to crumble, but it has not{n}yet reached the river's flow.{end}"
  },
  {
   "id": "B0F3",
@@ -516,7 +516,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "この川を越えれば霊山{n}シュミセンが見えてくるはず{n}まだ間に合いそうだ！{end}",
-  "en": ""
+  "en": "Beyond this river, I should see{n}the sacred mountain Shumisen. It{n}seems I may still be in time!{end}"
  },
  {
   "id": "B121",
@@ -526,7 +526,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "今度はあなたが{n}お相手なの？{end}",
-  "en": ""
+  "en": "So now you are to be my{n}opponent?{end}"
  },
  {
   "id": "B134",
@@ -536,7 +536,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "あなたのような方は{n}この先にもまだいるのかしら？{end}",
-  "en": ""
+  "en": "Are there still more like you{n}further ahead, I wonder?{end}"
  },
  {
   "id": "B14F",
@@ -546,7 +546,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "なんて熱さだ！{n}火山地帯か……{end}",
-  "en": ""
+  "en": "Man, it's hot! Volcano country,{n}huh...{end}"
  },
  {
   "id": "B164",
@@ -556,7 +556,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "火気に満ちているせいか{n}力がわいて来る{end}",
-  "en": ""
+  "en": "Maybe it's all this fire energy, but{n}I can feel my strength welling up.{end}"
  },
  {
   "id": "B17D",
@@ -568,7 +568,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "よくこんなところまで来れたな{n}なみはずれた{n}その幸運に感謝するんだな{end}",
-  "en": ""
+  "en": "You did well to make it this far. Be{n}thankful for that extraordinary{n}luck of yours.{end}"
  },
  {
   "id": "B1A5",
@@ -578,7 +578,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "この神殿は一体なんなんだ？{n}なぜこんなに荒れている？{end}",
-  "en": ""
+  "en": "What is this temple, anyway?{n}Why's it so ruined?{end}"
  },
  {
   "id": "B1C5",
@@ -590,7 +590,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "都の名はホウラク京{n}火の一族の都であり{n}朱雀様の都だ！{end}",
-  "en": ""
+  "en": "This city is called Horaku: the{n}capital of the fire clan, and the{n}city of Suzaku-sama!{end}"
  },
  {
   "id": "B1EE",
@@ -600,7 +600,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "火の一族？{n}朱雀？{end}",
-  "en": ""
+  "en": "Fire clan? Suzaku?{end}"
  },
  {
   "id": "B1FD",
@@ -612,7 +612,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "霊峰シュミセンを{n}守っていた一族{n}それが火の一族だ{end}",
-  "en": ""
+  "en": "The clan that guarded the sacred{n}peak Shumisen -- that is the fire{n}clan.{end}"
  },
  {
   "id": "B222",
@@ -624,7 +624,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "そしてその火の一族を{n}守護して下さる方が闘神{n}朱雀様だ！{end}",
-  "en": ""
+  "en": "And the one who protects that{n}fire clan is the war god,{n}Suzaku-sama!{end}"
  },
  {
   "id": "B24B",
@@ -634,7 +634,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "この世の混乱を鎮めるために{n}あたしはシュミセンへ行く{n}邪魔をしないでほしい！{end}",
-  "en": ""
+  "en": "I'm going to Shumisen to calm the{n}chaos in this world. So don't get in{n}my way!{end}"
  },
  {
   "id": "B27C",
@@ -646,7 +646,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "すべてはなされるがままに……{n}大いなる神のご意思だ{page}我々が滅ぶことも{n}また必要なこと{end}",
-  "en": ""
+  "en": "All things happen as they will... It{n}is the will of the great god.{page}That we perish, too, is necessary.{end}"
  },
  {
   "id": "B2AF",
@@ -656,7 +656,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "やはり問答は無用か！{end}",
-  "en": ""
+  "en": "So there's no point in talking, huh!{end}"
  },
  {
   "id": "B2BE",
@@ -668,7 +668,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "私を倒せたからといって{n}シュミセンへ{n}行けるわけではない{end}",
-  "en": ""
+  "en": "Defeating me does not mean you{n}can reach Shumisen.{end}"
  },
  {
   "id": "B2E1",
@@ -678,7 +678,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "もとより承知の上だ！{end}",
-  "en": ""
+  "en": "I knew that from the start!{end}"
  },
  {
   "id": "B2EF",
@@ -690,7 +690,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "殊勝な覚悟だな……ぐふう！{n}朱雀様……朱雀様ァ！{page}我に代って{n}この愚か者に天罰を……{end}",
-  "en": ""
+  "en": "Admirable resolve... Gwah!{n}Suzaku-sama... Suzaku-samaaa!{page}In my stead, bring heaven's{n}punishment upon this fool...{end}"
  },
  {
   "id": "B32A",
@@ -701,7 +701,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "いつになくにぎやかなので{n}どなたが遊びに来て{n}くだすったのかと思えば……{end}",
-  "en": ""
+  "en": "Such an unusual commotion today,{n}I wondered who had been kind{n}enough to come and play with me...{end}"
  },
  {
   "id": "B352",
@@ -712,7 +712,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "かわいらしい{n}お嬢さんじゃござんせんか{end}",
-  "en": ""
+  "en": "Why, if it isn't a darling young{n}lady!{end}"
  },
  {
   "id": "B367",
@@ -722,7 +722,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "シュミセンに行きたい！{n}だからここを通してもらいたい{end}",
-  "en": ""
+  "en": "I want to go to Shumisen! So let{n}me through.{end}"
  },
  {
   "id": "B387",
@@ -733,7 +733,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "シュミセンになど行っても{n}お嬢さんがすることなんざァ{n}なにもありゃァしませんよ{end}",
-  "en": ""
+  "en": "Even if you go to Shumisen, my{n}dear, there's nothing at all there{n}for a young lady like you to do.{end}"
  },
  {
   "id": "B3B4",
@@ -743,7 +743,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "邪魔する者は{n}倒すのみ！{end}",
-  "en": ""
+  "en": "Whoever gets in my way goes{n}down!{end}"
  },
  {
   "id": "B3C5",
@@ -754,7 +754,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "これは勇ましい！では……{n}現実のきびしさをたっぷりと{n}教えてしんぜましょう{end}",
-  "en": ""
+  "en": "My, how brave! Then... allow me to{n}teach you just how harsh reality{n}can be.{end}"
  },
  {
   "id": "B3EF",
@@ -765,7 +765,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "さあ、{n}かかってらっしゃいまし！{end}",
-  "en": ""
+  "en": "Now then, do come at me!{end}"
  },
  {
   "id": "B400",
@@ -775,7 +775,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "あっついなァー、モォ！{n}火山地帯なのかァここは……{page}シュミのお山行くのも{n}大変だなァ{end}",
-  "en": ""
+  "en": "It's sooo hot, jeez! Is this some{n}kind of volcano place...?{page}Getting to Mount Shumi sure is{n}tough...{end}"
  },
  {
   "id": "B436",
@@ -785,7 +785,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "なんでこんな建物{n}つくったのォ？{n}それにもうボロボロじゃない！{end}",
-  "en": ""
+  "en": "Why'd anybody build a place like{n}this? And it's all falling apart, too!{end}"
  },
  {
   "id": "B45C",
@@ -795,7 +795,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "ヒのイチゾクぅー？{n}スザクぅー？{n}なァにそれェー！{end}",
-  "en": ""
+  "en": "Fire claaan? Suzakuuu? Whaaat's{n}that?!{end}"
  },
  {
   "id": "B478",
@@ -805,7 +805,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "ボク、この世を救うために{n}シュミセンへ行くんだよォ{n}邪魔しないでほしいなァー！{end}",
-  "en": ""
+  "en": "I'm going to Shumisen to save the{n}world, you know! I wish you{n}wouldn't get in my waaay!{end}"
  },
  {
   "id": "B4A9",
@@ -815,7 +815,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "カタクルシイ云い方……{n}いかにもガンコって感じ{n}ボク、手加減しないからねェ！{end}",
-  "en": ""
+  "en": "Such a stuffy way of talking...{n}You're totally the stubborn type.{n}I'm not gonna hold back, okay?!{end}"
  },
  {
   "id": "B4DA",
@@ -825,7 +825,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "そんなこと{n}最初からわかってるもん！{end}",
-  "en": ""
+  "en": "I already knew that from the{n}start!{end}"
  },
  {
   "id": "B4EF",
@@ -835,7 +835,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "シュミのお山に{n}行きたいんだ{n}ここを通してくれない？{end}",
-  "en": ""
+  "en": "I wanna go to Mount Shumi. Won't{n}you let me through?{end}"
  },
  {
   "id": "B50F",
@@ -845,7 +845,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "邪魔するんだったら{n}やっつけちゃうよ！{end}",
-  "en": ""
+  "en": "If you get in my way, I'll beat you{n}up!{end}"
  },
  {
   "id": "B525",
@@ -855,7 +855,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "木、土、水、そしてここからは{n}火気である火山地帯か……{end}",
-  "en": ""
+  "en": "Wood, earth, water... and from{n}here on, a volcanic land of the fire{n}element...{end}"
  },
  {
   "id": "B54A",
@@ -865,7 +865,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "この荒れた都や神殿は{n}一体なんのための{n}ものなのです？{end}",
-  "en": ""
+  "en": "What purpose could this ravaged{n}city and temple possibly serve?{end}"
  },
  {
   "id": "B56C",
@@ -875,7 +875,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "朱雀！{n}朱雀だって？{end}",
-  "en": ""
+  "en": "Suzaku! Did you say Suzaku?{end}"
  },
  {
   "id": "B57B",
@@ -885,7 +885,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "私は朱雀を知っている{n}朱雀の力量もね……{n}でも私は行く、邪魔しないで！{end}",
-  "en": ""
+  "en": "I know Suzaku, and Suzaku's{n}strength as well... But I am going.{n}Do not stand in my way!{end}"
  },
  {
   "id": "B5AB",
@@ -895,7 +895,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "我々の滅亡を阻止することが{n}私の使命とは思っていない{n}ただ真実を知りたいだけだ！{end}",
-  "en": ""
+  "en": "I do not see it as my mission to{n}prevent our destruction. I simply{n}want to know the truth!{end}"
  },
  {
   "id": "B5E0",
@@ -905,7 +905,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "しかし問答無用であることに{n}変わりはないのでしょう{n}あなたを倒します！{end}",
-  "en": ""
+  "en": "But words will change nothing, I{n}take it. I will defeat you!{end}"
  },
  {
   "id": "B60A",
@@ -915,7 +915,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "わかっています{n}朱雀ですね……{end}",
-  "en": ""
+  "en": "I know. It is Suzaku, isn't it...{end}"
  },
  {
   "id": "B61C",
@@ -925,7 +925,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "久しぶりね朱雀！{end}",
-  "en": ""
+  "en": "It has been a long time, Suzaku!{end}"
  },
  {
   "id": "B628",
@@ -935,7 +935,7 @@
   "box": "enemy",
   "heroine": "Kairu",
   "jp": "これはこれは{n}河意留さんじゃござんせんか{end}",
-  "en": ""
+  "en": "Well, well, if it isn't Kairu-san!{end}"
  },
  {
   "id": "B640",
@@ -945,7 +945,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "シュミセンへ行きます{n}あなたとは戦いたくありません{n}ここを通してください！{end}",
-  "en": ""
+  "en": "I am going to Shumisen. I do not{n}wish to fight you. Please let me{n}pass!{end}"
  },
  {
   "id": "B66C",
@@ -955,7 +955,7 @@
   "box": "enemy",
   "heroine": "Kairu",
   "jp": "あなたの都合にばかり{n}おつきあいするわけには{n}いきませんねえ……{end}",
-  "en": ""
+  "en": "I'm afraid I can't always go along{n}with whatever suits you, now can{n}I...{end}"
  },
  {
   "id": "B68F",
@@ -965,7 +965,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "では　どうあっても{n}戦うというのですか？{end}",
-  "en": ""
+  "en": "Then you mean to fight, no{n}matter what?{end}"
  },
  {
   "id": "B6A5",
@@ -975,7 +975,7 @@
   "box": "enemy",
   "heroine": "Kairu",
   "jp": "ええ　わたくしが河意留さんに{n}現実のきびしさを{n}教えてしんぜましょう！{end}",
-  "en": ""
+  "en": "Yes, indeed. Allow me to teach{n}you, Kairu-san, just how harsh{n}reality can be!{end}"
  },
  {
   "id": "B6CF",
@@ -985,7 +985,7 @@
   "box": "enemy",
   "heroine": "Kairu",
   "jp": "倒した相手に近づく時には{n}完全に息の根をとめてからに{n}なさった方がいいわよ……{end}",
-  "en": ""
+  "en": "Before you approach a fallen foe,{n}you'd best make sure they've{n}breathed their last...{end}"
  },
  {
   "id": "B701",
@@ -995,7 +995,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "えっ！{n}どういうことです朱雀？{end}",
-  "en": ""
+  "en": "What?! What do you mean,{n}Suzaku?{end}"
  },
  {
   "id": "B713",
@@ -1005,7 +1005,7 @@
   "box": "enemy",
   "heroine": "Kairu",
   "jp": "今のあなたはスキだらけ{n}相手によっては{n}そこにつけこまれますよ{end}",
-  "en": ""
+  "en": "As you are now, you're wide open.{n}Some opponents would take full{n}advantage of that.{end}"
  },
  {
   "id": "B736",
@@ -1015,7 +1015,7 @@
   "box": "enemy",
   "heroine": "Kairu",
   "jp": "あなたみたいな人に{n}倒されたかと思うと{n}くやしくて……{end}",
-  "en": ""
+  "en": "To think I was defeated by{n}someone like you... It's so vexing...{end}"
  },
  {
   "id": "B755",
@@ -1025,7 +1025,7 @@
   "box": "enemy",
   "heroine": "Kairu",
   "jp": "死ぬに死にきれないじゃ{n}ござんせんか{n}ふふふ……ウッ！{end}",
-  "en": ""
+  "en": "Why, I can't even die in peace,{n}now can I? Hee hee hee... Ugh!{end}"
  },
  {
   "id": "B774",
@@ -1035,7 +1035,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "朱雀！{n}もうしゃべらないで……{n}朱雀！……朱雀ゥ……！{end}",
-  "en": ""
+  "en": "Suzaku! Don't try to talk... Suzaku!{n}...Suzakuuu...!{end}"
  },
  {
   "id": "B796",
@@ -1045,7 +1045,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "あれがシュミセンか……？{n}この砂漠を越えさえすれば{n}あたしの旅も先が見える！{end}",
-  "en": ""
+  "en": "Is that Shumisen...? If I can just{n}get across this desert, my{n}journey's end will be in sight!{end}"
  },
  {
   "id": "B7C6",
@@ -1055,7 +1055,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "考えたって仕方ない{n}一気に行くぜェ！{end}",
-  "en": ""
+  "en": "No point thinking about it. I'm{n}charging straight through!{end}"
  },
  {
   "id": "B7DF",
@@ -1065,7 +1065,7 @@
   "box": "enemy",
   "heroine": "Rufu",
   "jp": "流風……{n}ひとりでできることなんか{n}たかが知れてるぜ{end}",
-  "en": ""
+  "en": "Rufu... there's only so much a{n}person can do alone.{end}"
  },
  {
   "id": "B7FD",
@@ -1075,7 +1075,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "白虎っ！{n}なんでアンタがこんなとこに？{end}",
-  "en": ""
+  "en": "Byakko! What are you doing in a{n}place like this?{end}"
  },
  {
   "id": "B815",
@@ -1085,7 +1085,7 @@
   "box": "enemy",
   "heroine": "Rufu",
   "jp": "さて……運命とでも云おうか{n}形あるものはいつかくずれる{n}流風　それも運命だぜ！{end}",
-  "en": ""
+  "en": "Well... call it fate, maybe.{n}Everything with form crumbles{n}someday. Rufu, that's fate too!{end}"
  },
  {
   "id": "B845",
@@ -1095,7 +1095,7 @@
   "box": "enemy",
   "heroine": "Rufu",
   "jp": "ちっぼけな人間が{n}どうにかできることじゃねえ{n}いや……させねえ！{end}",
-  "en": ""
+  "en": "It's nothing a puny human can do{n}anything about. No... I won't let{n}you!{end}"
  },
  {
   "id": "B868",
@@ -1105,7 +1105,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "なぜ白虎が？{end}",
-  "en": ""
+  "en": "Why you, Byakko?{end}"
  },
  {
   "id": "B871",
@@ -1115,7 +1115,7 @@
   "box": "enemy",
   "heroine": "Rufu",
   "jp": "だから……{n}それがあたしの運命だと{n}知ったからさ！{end}",
-  "en": ""
+  "en": "Because... I found out that's my{n}fate!{end}"
  },
  {
   "id": "B88E",
@@ -1125,7 +1125,7 @@
   "box": "enemy",
   "heroine": "Rufu",
   "jp": "さあ、かかって来い流風！{end}",
-  "en": ""
+  "en": "Now come at me, Rufu!{end}"
  },
  {
   "id": "B89E",
@@ -1135,7 +1135,7 @@
   "box": "enemy",
   "heroine": "Rufu",
   "jp": "流風……シュミセンの頂上は{n}とてつもなく邪悪な気に{n}満ちている、油断するなよ……{end}",
-  "en": ""
+  "en": "Rufu... the summit of Shumisen is{n}filled with an incredibly evil aura.{n}Don't let your guard down...{end}"
  },
  {
   "id": "B8D4",
@@ -1145,7 +1145,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "わかったよ……白虎{end}",
-  "en": ""
+  "en": "Got it... Byakko.{end}"
  },
  {
   "id": "B8E0",
@@ -1155,7 +1155,7 @@
   "box": "enemy",
   "heroine": "Rufu",
   "jp": "流風……アンタはあたしを{n}友達って思ってくれたことは{n}あったかい？{end}",
-  "en": ""
+  "en": "Rufu... did you ever think of me as{n}a friend?{end}"
  },
  {
   "id": "B909",
@@ -1165,7 +1165,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "もちろんさ！{n}白虎はあたしの大切な……{n}大切な友達だよ{end}",
-  "en": ""
+  "en": "Of course! Byakko, you're my{n}dear... my dear friend!{end}"
  },
  {
   "id": "B92D",
@@ -1175,7 +1175,7 @@
   "box": "enemy",
   "heroine": "Rufu",
   "jp": "ありがとう{n}……る・ふ・う！{end}",
-  "en": ""
+  "en": "Thank you... ...Ru-fu!{end}"
  },
  {
   "id": "B93C",
@@ -1185,7 +1185,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "……！{n}白虎ォーっ！{end}",
-  "en": ""
+  "en": "...! Byakkooo!{end}"
  },
  {
   "id": "B949",
@@ -1195,7 +1195,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "この砂漠を越えたら{n}いよいよシュミセンだ{end}",
-  "en": ""
+  "en": "Once I cross this desert, it's{n}finally Shumisen!{end}"
  },
  {
   "id": "B964",
@@ -1206,7 +1206,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "待ちなァ！{n}ここから先へは行かせないよ{end}",
-  "en": ""
+  "en": "Hold it! I won't let you go any{n}further!{end}"
  },
  {
   "id": "B97B",
@@ -1217,7 +1217,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "シュミセンに登って光と闇を{n}元にもどして世界を救いたい{n}それがアンタの望みだろう？{end}",
-  "en": ""
+  "en": "You want to climb Shumisen,{n}restore light and dark, and save{n}the world. That's your wish, right?{end}"
  },
  {
   "id": "B9B2",
@@ -1228,7 +1228,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "しかし……{n}形あるものはいつかくずれる{n}それは運命だ！{end}",
-  "en": ""
+  "en": "But... everything with form{n}crumbles someday. That's fate!{end}"
  },
  {
   "id": "B9D1",
@@ -1238,7 +1238,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "ふーん……{n}でも、世界を救うことが{n}ボクの運命だったら？{end}",
-  "en": ""
+  "en": "Hmmm... But what if saving the{n}world is my fate?{end}"
  },
  {
   "id": "B9F4",
@@ -1249,7 +1249,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "ふふふ……{n}アンタが運命に殉ずるように{n}あたしも運命に殉ずる！{end}",
-  "en": ""
+  "en": "Heh heh heh... Just like you'd die{n}for your fate, I'll die for mine!{end}"
  },
  {
   "id": "BA1C",
@@ -1260,7 +1260,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "あたしの名は白虎！{n}シュミセンを守るために{n}生まれてきたァ！{end}",
-  "en": ""
+  "en": "My name is Byakko! I was born to{n}guard Shumisen!{end}"
  },
  {
   "id": "BA43",
@@ -1270,7 +1270,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "彼方に見える山{n}あれが霊山シュミセン！{n}ここまでの私の旅……{end}",
-  "en": ""
+  "en": "That mountain in the distance...{n}that is the sacred mountain,{n}Shumisen! My journey up to now...{end}"
  },
  {
   "id": "BA6D",
@@ -1280,7 +1280,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "永かったような短かったような{n}フッ……なにを感傷的な{page}これからが{n}正念場というやつさ！{end}",
-  "en": ""
+  "en": "It feels both long and short...{n}Hmph... how sentimental of me.{page}Now comes the moment of truth!{end}"
  },
  {
   "id": "BAA3",
@@ -1290,7 +1290,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "世界を救うことが{n}私の運命だとしたら？{end}",
-  "en": ""
+  "en": "What if saving the world is my{n}fate?{end}"
  },
  {
   "id": "BABD",
@@ -1302,7 +1302,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "{c04}ついにここまで来たな{n}私の名はトウテツ{n}欲望を喰らう者だ{end}",
-  "en": ""
+  "en": "{c04}So you have finally come this far.{n}My name is Totetsu, the one who{n}devours desire.{end}"
  },
  {
   "id": "BAE5",
@@ -1314,7 +1314,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "すべての物には{n}決められた運命がある{end}",
-  "en": ""
+  "en": "Everything has a fate decided for{n}it.{end}"
  },
  {
   "id": "BAFC",
@@ -1326,7 +1326,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "運命を超越した願いは{n}欲望と呼ばれる{end}",
-  "en": ""
+  "en": "A wish that goes beyond fate is{n}called desire.{end}"
  },
  {
   "id": "BB17",
@@ -1338,7 +1338,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "しかし生きとし生ける者{n}すべてはおのれの存在を{n}永遠に留めたいと思うものだ{end}",
-  "en": ""
+  "en": "Yet every living thing wishes to{n}preserve its own existence forever.{end}"
  },
  {
   "id": "BB46",
@@ -1350,7 +1350,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "それは過ぎたる願い{n}つまりは欲望だ{end}",
-  "en": ""
+  "en": "That is a wish beyond its bounds. In{n}other words, desire.{end}"
  },
  {
   "id": "BB5C",
@@ -1362,7 +1362,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "人間どもの愚かな欲望が{n}私という存在を{n}超自然の力によって生み出す{end}",
-  "en": ""
+  "en": "The foolish desire of humans brings{n}me into being through supernatural{n}power.{end}"
  },
  {
   "id": "BB8C",
@@ -1374,7 +1374,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "私を消し去れば{n}それですべてが{n}無に帰すると考えているのか{end}",
-  "en": ""
+  "en": "Do you believe that erasing me will{n}undo it all?{end}"
  },
  {
   "id": "BBB0",
@@ -1386,7 +1386,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "{c04}フフフ……{n}勇敢な娘だねおまえは{n}さあ己の力を思い知るがいい！{end}",
-  "en": ""
+  "en": "{c04}Heh heh heh... You are a brave girl.{n}Now, learn the measure of your{n}own strength!{end}"
  },
  {
   "id": "BBDB",
@@ -1398,7 +1398,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "たったいまおまえが倒した者{n}それがおまえ自身の欲望だ{page}残念だが{n}私に勝ったわけではない{end}",
-  "en": ""
+  "en": "What you just defeated was your{n}own desire.{page}I am afraid you have not defeated{n}me.{end}"
  },
  {
   "id": "BC11",
@@ -1410,7 +1410,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "しかしあせることもない{n}おまえの力によって{n}私の力は封印されることになる{end}",
-  "en": ""
+  "en": "But there is no need to be hasty.{n}By your power, my own power shall{n}be sealed.{end}"
  },
  {
   "id": "BC3B",
@@ -1422,7 +1422,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "一時的にではあるが{n}私はこの世界から姿を消す{end}",
-  "en": ""
+  "en": "Only for a time, but I will vanish{n}from this world.{end}"
  },
  {
   "id": "BC5A",
@@ -1434,7 +1434,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "いつの日か私は復活する{page}その時はふたたび{n}おまえと戦いたいと{n}思っているよ{end}",
-  "en": ""
+  "en": "Someday I will return.{page}When that time comes, I would like{n}to fight you again.{end}"
  },
  {
   "id": "BC87",
@@ -1446,7 +1446,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "心配にはおよばない{n}人間たちが{n}今のままであるかぎり{end}",
-  "en": ""
+  "en": "There is no need to worry. As long{n}as humans remain as they are,{end}"
  },
  {
   "id": "BCA7",
@@ -1458,7 +1458,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "私が復活する日は意外にはやい{n}必ず私は復活する{n}いま以上の力を得てね{end}",
-  "en": ""
+  "en": "the day of my return will come{n}sooner than you expect. I will{n}surely return, stronger than ever.{end}"
  },
  {
   "id": "BCD8",
@@ -1470,7 +1470,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "その時までにおまえも{n}力と技を高めておくがいい{n}さらばだ！{end}",
-  "en": ""
+  "en": "Until then, you too should hone{n}your strength and skill. Farewell!{end}"
  },
  {
   "id": "BCFA",
@@ -1480,7 +1480,7 @@
   "box": "profile",
   "heroine": "",
   "jp": "　姓名：流風{n}誕生日：南レンベン歴{n}　７４２年４月３０日{n}　年齢：１７才{n}　身長：１６３ｃｍ{n}　　　　Ｂ８２{n}　　　　Ｗ５６{n}　　　　Ｈ８４{n}血液型：Ａ型{end}",
-  "en": ""
+  "en": "Name: Rufu{n}Birthday: April 30,{n}742, South Lenben{n}Age: 17{n}Height: 163 cm{n}Bust: 82{n}Waist: 56{n}Hips: 84{n}Blood type: A{end}"
  },
  {
   "id": "BD61",
@@ -1490,7 +1490,7 @@
   "box": "profile",
   "heroine": "",
   "jp": "　姓名：波無寿{n}誕生日：南レンベン歴{n}　７４３年１月１４日{n}　年齢：１６才{n}　身長：１５５ｃｍ{n}　　　　Ｂ８０{n}　　　　Ｗ５５{n}　　　　Ｈ８０{n}血液型：Ｂ型{end}",
-  "en": ""
+  "en": "Name: Hamusu{n}Birthday: January 14,{n}743, South Lenben{n}Age: 16{n}Height: 155 cm{n}Bust: 80{n}Waist: 55{n}Hips: 80{n}Blood type: B{end}"
  },
  {
   "id": "BDCA",
@@ -1500,6 +1500,6 @@
   "box": "profile",
   "heroine": "",
   "jp": "　姓名：河意留{n}誕生日：南レンベン歴{n}　７４１年５月２８日{n}　年齢：１８才{n}　身長：１７１ｃｍ{n}　　　　Ｂ８７{n}　　　　Ｗ５８{n}　　　　Ｈ８５{n}血液型：Ｂ型{end}",
-  "en": ""
+  "en": "Name: Kairu{n}Birthday: May 28,{n}741, South Lenben{n}Age: 18{n}Height: 171 cm{n}Bust: 87{n}Waist: 58{n}Hips: 85{n}Blood type: B{end}"
  }
 ]
