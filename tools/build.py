@@ -59,11 +59,12 @@ PRO_DRAW_CODE = bytes.fromhex("20ddd0" "a980" "8d1521" "eaeaeaeaeaeaeaea")
 PRO_WAIT = 0x150C8  # LDA #$01 before STA $36: frames per row in the horizontal mode
 PRO_FONT = 0x224BC  # $84:A4BC, prologue font: 32 bytes per slot
 PRO_FRAMES = 32  # frames per row: 16 px at 0.5 px a frame
-# Rows in all: 42 x 32 frames ~ the original's 29 columns x 48 (the scene goes on a fixed time after the drawer
-# returns). The BG3 map is 16 rows: a row stays in it until the row drawn 16 later overwrites it, so the last text
+# Rows in all: 41 x 32 frames ~ the original's 29 columns x 48 (the scene goes on a fixed time after the drawer
+# returns). 42 rows (scenes 47 frames later than the original) flashed the group art in the old palette for 2-3
+# frames after the Kairu card (a timing race, phase 8); 41 (15 frames later) shows it clean. The BG3 map is 16 rows: a row stays in it until the row drawn 16 later overwrites it, so the last text
 # row must be 16 before the end, else it scrolls back in and stays over the next scenes (scrolling stops when $52
 # runs out). Text rows start after PRO_LEAD blank ones; a blank line in the text is 2 blank rows.
-PRO_ROWS, PRO_LEAD = 42, 4
+PRO_ROWS, PRO_LEAD = 41, 4
 # args: $52 as the original; $54 hscroll x4 (set by the build: centres the widest line); vscroll 16, then 0.5 px a
 # frame ($5D = 2), puts each row 16 px below the screen when drawn; $3B as the original
 PRO_SCROLL = bytes.fromhex("5005" "0000" "4000" "00" "02" "02")

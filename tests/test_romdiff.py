@@ -47,7 +47,7 @@ def test_writes_inside_allowed_ranges(built):
     assert not bad, "writes outside tools/ranges.txt:\n" + "\n".join(bad)
 
 
-HOOKS = [(0x9F01, 0x9F05), (0xA51A, 0xA51B), (0xA561, 0xA5AD)]  # rewritten code spans in bank $83
+HOOKS = [(0x916E, 0x916F), (0x9F01, 0x9F05), (0xA51A, 0xA527), (0xA561, 0xA5AD)]  # rewritten code spans in bank $83
 NOT_CODE = {0x9F7D, 0xA606, 0xA613, 0xA61F}  # operand bytes of ADC #$10B8 / LDA $848000/$848002 (dis65816)
 
 

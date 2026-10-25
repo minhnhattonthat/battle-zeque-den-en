@@ -13,8 +13,9 @@
 013585-013589  chapter card hook $82:B585 (JSL card_draw; RTS)
 015054-015063  prologue: $82:D054 in the horizontal mode: JSR $D0DD (draw the line), VMAIN
 0150C8-0150C8  prologue: frames per row in the horizontal mode ($82:D0C7)
+01916E-01916F  dialogue VM text speed $83:916E (AND #$07 -> #$03)
 019F01-019F05  glyph draw hook $83:9F01 (JSL vwf_draw; RTS)
-01A51A-01A51B  {page} handler $83:A51A
+01A51A-01A527  {page} handler $83:A51A + vwf_scroll3 in its dead bytes
 01A561-01A5AD  newline handler $83:A561, rewritten in place
 01AA38-01BE32  dialogue text block
 01BEE1-01C2D3  cutscene scripts: text pointer operands

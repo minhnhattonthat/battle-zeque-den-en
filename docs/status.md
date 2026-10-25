@@ -2,7 +2,7 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 7 (insert, fit, check) done 2026-10-25. Next: phase 8 (QA in the emulator).
+- **Phase:** 8 (QA in the emulator) done 2026-10-25. Next: phase 9 (release).
 - **Done (phase 1):** all in `docs/re/` (index `docs/re/README.md`), facts pinned by `tests/test_recon.py`.
   - ROM: LoROM FastROM 1.5 MB, header says 2 MB; free-space candidates listed, none trap-tested (`rom.md`).
   - Dialogue: one block in bank $83 (0x1AA38-0x1BE33, 143 strings, font-cell encoding), script VM table
@@ -71,13 +71,33 @@ Updated at the end of every session. Keep it to what the next session needs; his
     `tests/test_gfx.py::test_prologue_lines_read_back`). Old jp prologue text blanked (`jp_left --sjis`: only noise).
   - Warp sweep on the final build: 62/62 reached, states regenerated (`work/states/`). New probes in `tools/lua/`:
     `writes.lua` (WRAM write log; IO registers are not caught), `execs.lua`, `ramdumps_at.lua`.
-- **Next (phase 8, QA):** routes through changed scenes with the debug tool -> contact sheets -> visual-qa
-  subagents -> `qa_gate.py check` exit 0; zoomed cold-boot shots of every chapter card, prologue names, staff roll.
+- **Done (phase 8):** QA tour = all 62 warps (`warp_all.py --rom build/bzd_en.sfc --out tour --var
+  SHOT_EVERY_W=20`), full-size sheets `tools/qa_sheets.py tour` (also `tour_jp` from the original), gate
+  `work/qa/manifest.tsv` + `work/qa/verdicts/` (289 sheets), brief `docs/visual-qa-brief.md` (game's standing
+  non-bugs listed). 3 rounds of visual-qa agents; `qa_gate.py check` exits 0 on the final build (sha1 185e1f70...,
+  smoke ok, states regenerated). Fixed:
+  - **Page wait (critical, from phase 5):** `$83:9DE7` is a per-frame state machine; `vwf_newpage` scrolled after its
+    first call, so every page cleared the moment it was typed and the arrow waited on an empty box. Clear now deferred
+    to the next glyph (`docs/re/font.md` §Dialogue renderer). Verified frame by frame (boss1_h0, ch2_h2).
+  - **Text speed:** a glyph every 4 frames (was 8; English pages have ~3x the glyphs, ~12 s a page).
+  - **One-word last lines** ("power.", "Suzaku?", 18 entries): `batches.stub()` = one word or < 6 chars, re-wrapped by
+    `wrap`, checked by `tests/test_lint.py`; merged again from `work/tl/b00{1,2}.out.tsv`.
+  - **Prologue:** 41 rows (was 42): at 42 the group art after the Kairu card flashed 2-3 frames in the old palette
+    (a timing race, the scenes ran 47 frames late); 41 is clean at every frame.
+  - Not ours: ch1 forest lightning flashes, portrait garble at speaker swaps, staff-roll spellings (original).
+  - Zoomed checks (`work/qa/zoom/cards.png`, `prologue.png`, `prologue_names.png`, `staff.png`): all six chapter cards,
+    prologue text + Rufu/Hamusu/Kairu names, select orbs, GAME OVER/CONTINUE (original English; the BG logo pattern is
+    G2, kept by D5), staff roll incl. "Character Design": English.
+  - New: `tools/qa_sheets.py`, `tools/lua/ppuframes.lua` (per-frame blank/brightness/CGRAM/VRAM sums). Gotcha: the
+    skill's `snes_dmalog.lua` logged nothing here (IO-register writes aren't caught, as with `writes.lua`).
+- **Next (phase 9, release):** `tools/release.py` runs `qa_gate.py check` (re-run `qa_gate.py init` first: any
+  rebuild that changes pixels needs the tour + review again), `jp_left.py` on the build, debug tool off (warps are
+  Lua-only, nothing in the ROM), BPS patch made + re-applied + verified, README with base ROM hashes, zip = patch +
+  README. Polish pass from phase 6 (Genbu "darn"/"heck", B93C, B1FD) before the final build.
 - **Open bugs:** none.
 - **Notes for later phases:**
-  - Warp shots are every 60 frames and the warp mashes A every 40, so a dialogue page can fall between shots; for
-    phase-8 QA pass `--var SHOT_EVERY_W=20` or slow the mash.
   - Regenerate states with `warp_all.py --rom build/bzd_en.sfc --states` after any code/font/graphics change.
+  - The machine may be shared with another project's emulators: tours then take ~3x longer.
 - **Waiting on the user:**
   - Not verified: the Mesen GUI in `tools/mesen/` taking keyboard input (headless scripted input works). Owner: open
     `tools/mesen/Mesen.exe` once and check the arrow keys/Z/X work.
@@ -88,3 +108,5 @@ Updated at the end of every session. Keep it to what the next session needs; his
     `[04]…` pacing and the 光/闇 colour accents are not carried over: this drawer mode has one colour).
   - Translation defaults picked in phase 6 (no ruling asked; change in `glossary.md` if wanted): Hamusu's
     おっちゃん -> "Uncle"; 朱雀様 -> "Suzaku-sama" (D1 keeps honorifics); light swearing kept mild ("darn", "heck").
+  - Text speed default (phase 8): dialogue types twice as fast as the original (a glyph every 4 frames; holding the
+    button still prints instantly). `asm/vwf.asm` `org $83916E`: `and #$01` = faster, `#$07` = original.

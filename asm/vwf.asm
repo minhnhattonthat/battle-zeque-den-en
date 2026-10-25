@@ -16,6 +16,7 @@ lorom
 !lo = $FF0E
 !row = $FF10       ; glyph row 0-11 (11 = shadow only)
 !tmp = $FF12
+!clear = $7FFF14   ; nonzero: clear the 3 rows before the next glyph (the page wait is still running)
 
 !buf = $10B8       ; text tile buffer $7F:10B8
 
@@ -27,8 +28,17 @@ org $839F01        ; glyph draw (JSR, A = glyph index 16-bit, X = text pointer);
 ; it waits and draws the next line over row 3; jp text never has more than 3 lines before a {page}. English
 ; lines are broken by the build, so: a newline past row 3 waits for a button and starts a fresh page, and {page}
 ; (code 01, was newline + wait + scroll counter $7F:002D) waits and starts a fresh page unless one just began.
+org $83916E        ; dialogue VM ($83:9158, M = 8 bit): a glyph every 4 frames, was 8 (AND #$07); English pages
+    and #$03            ; have ~3x the glyphs of the jp ones (phase 8: ~12 s a page at 8)
+
 org $83A51A        ; {page} handler (jump table $83:A4F9)
     jmp vwf_page
+vwf_scroll3:        ; JSL target for vwf_draw, in the old handler's dead bytes $83:A51D-$83:A527
+    jsr $A3C9           ; scroll up one row, fill the bottom row with the box background (none for Totetsu)
+    jsr $A3C9
+    jsr $A3C9
+    rtl
+    assert pc() <= $83A528
 
 org $83A561        ; newline handler, rewritten in place (77 bytes up to $83:A5AD)
 vwf_newline:
@@ -57,14 +67,13 @@ vwf_page:
     jmp vwf_newpage
 +   rts
 
-vwf_newpage:            ; wait for a button ($83:9DE7), clear the 3 rows, cursor to the top left
-    jsr $9DE7
-    jsr $A3C9           ; scroll up one row, fill the bottom row with the box background (none for Totetsu)
-    jsr $A3C9
-    jsr $A3C9
+vwf_newpage:            ; wait for a button, cursor to the top left; vwf_draw clears the rows after the wait
+    jsr $9DE7           ; starts the wait (arrow); the VM calls it every frame until a press ($7F:0028 = 0)
     sep #$20
     lda #$00
     sta $7F002C
+    inc a
+    sta !clear
     rep #$20
     rts
     assert pc() <= $83A5AE
@@ -80,6 +89,17 @@ vwf_draw:
     pha
     phx
     phy
+    lda !clear          ; a new page began: clear the old one now that its wait is over (caller's DB)
+    and #$00FF
+    beq +
+    lda #$0000
+    sta !clear
+    jsl vwf_scroll3     ; leaves the cursor on row 2
+    sep #$20
+    lda #$00
+    sta $7F002C
+    rep #$20
++   lda $05,s           ; the glyph index again
     pea $7F7F
     plb
     plb

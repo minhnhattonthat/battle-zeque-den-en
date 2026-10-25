@@ -33,6 +33,15 @@ whole (0xAA0 bytes) to VRAM $6B00 every frame (`pc=$80:88BF`, `snes_dmalog.lua`)
   starts a fresh page; `{page}` does the same at once (unless a page just began). So English is a run of lines
   joined by `{n}`, paged by 3 automatically; `{page}` forces a new page. **verified** (`work/qa/m2/ch1_h0`:
   the 4-line torture entry pages after 3; `boss1_h0` AA9E `{page}` starts page 2 at the top).
+- **Fixed in phase 8:** the wait `$83:9DE7` is a per-frame state machine (`$7F:0028`: arrow, wait for release,
+  wait for press, ...); one call only starts it and the VM keeps calling it each frame until it is 0. The phase-5
+  code scrolled right after that first call, so every page cleared as soon as it was typed and the arrow waited on
+  an empty box (QA: "page never shown" whenever A was pressed while typing). Now `vwf_newpage` starts the wait,
+  zeroes the cursor and sets `$7F:FF14`; `vwf_draw` does the 3 scrolls (`vwf_scroll3`, JSL into the old `{page}`
+  handler's dead bytes `$83:A51D`) before the next glyph, then zeroes the cursor again (`$A3C9` leaves it on row 2).
+- Text speed: the dialogue VM (`$83:9158`, once a frame) draws a glyph when `$7F:002B` (+1, `AND #$07`) wraps,
+  i.e. every 8 frames; with the button held (`$08` bit 7) it loops glyphs in one frame until a wait. Phase 8 sets
+  `AND #$03` (every 4 frames): English pages have ~3x the glyphs, ~12 s a page at the original rate.
 
 The VWF (`asm/vwf.asm`, assembled by `tools/build.py` with asar): `$83:9F01` becomes `JSL $80:E580; RTS`. The new
 routine keeps the buffer, shadow and row maths, but draws at a pixel pen `$7F:FF00` (reset when the cursor column

@@ -77,16 +77,22 @@ def greedy(seg, px, adv):
     return lines + [cur]
 
 
+def stub(line):
+    """An orphaned last line: one word, or under STUB characters (phase-8 QA flagged "power.", "Suzaku?")."""
+    s = CODE.sub("", line).strip()
+    return " " not in s or len(s) < STUB
+
+
 def wrap(text, px, adv):
     """Paragraph text -> lines joined by {n}, pages by {page}; greedy on spaces. No {end}. A segment whose last
-    line would be a stub (< STUB characters) is re-wrapped at the narrowest width that keeps its line count."""
+    line would be a stub (see stub()) is re-wrapped at the narrowest width that keeps its line count."""
     pages = []
     for page in text.split("{page}"):
         lines = []
         for seg in page.split("{n}"):
             out = greedy(seg, px, adv)
             narrow = px
-            while len(out) > 1 and len(CODE.sub("", out[-1])) < STUB and narrow > px // 2:
+            while len(out) > 1 and stub(out[-1]) and narrow > px // 2:
                 narrow -= 1
                 trial = greedy(seg, narrow, adv)
                 if len(trial) != len(out):

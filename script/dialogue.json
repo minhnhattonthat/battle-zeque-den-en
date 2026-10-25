@@ -39,7 +39,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "シュミセンを{n}闇がおおう夢を見た{page}むかし聞いたことがある{n}それが滅びの始まりだと……{end}",
-  "en": "I dreamed that darkness covered{n}Shumisen.{page}I heard it long ago: that's how{n}doom begins...{end}"
+  "en": "I dreamed that darkness{n}covered Shumisen.{page}I heard it long ago: that's how{n}doom begins...{end}"
  },
  {
   "id": "AAD2",
@@ -95,7 +95,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "気持ち悪い夢{page}シュミのお山が{n}黒雲に覆われてた{n}あの夢は……{end}",
-  "en": "What a creepy dream...{page}Mount Shumi was all covered in{n}black clouds... What was that{n}about...?{end}"
+  "en": "What a creepy dream...{page}Mount Shumi was all covered{n}in black clouds... What was{n}that about...?{end}"
  },
  {
   "id": "AB7C",
@@ -175,7 +175,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "ウッ……なんて凶悪な気だ！{n}この地下洞窟は悪鬼の巣窟か？{end}",
-  "en": "Ugh... What an evil aura! Is this{n}underground cave a den of{n}demons?{end}"
+  "en": "Ugh... What an evil aura! Is{n}this underground cave a den{n}of demons?{end}"
  },
  {
   "id": "ACCB",
@@ -365,7 +365,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "アンタみたいなのは{n}この先にもいるのかい？{end}",
-  "en": "Are there more guys like you up{n}ahead?{end}"
+  "en": "Are there more guys like you{n}up ahead?{end}"
  },
  {
   "id": "AEEA",
@@ -436,7 +436,7 @@
   "box": "enemy",
   "heroine": "Hamusu",
   "jp": "いつの間にかナマイキな口を{n}きくようになりやがって……{n}どりゃ、かかって来い波無寿！{end}",
-  "en": "Since when'd ya learn to mouth{n}off like that... Hyah! Come at me,{n}Hamusu!{end}"
+  "en": "Since when'd ya learn to mouth{n}off like that... Hyah! Come at{n}me, Hamusu!{end}"
  },
  {
   "id": "AFF0",
@@ -456,7 +456,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "ゴメンよ　おっちゃん！{n}本気だすつもりじゃ{n}なかったんだけど……{end}",
-  "en": "Sorry, Uncle! I didn't mean to go all{n}out...{end}"
+  "en": "Sorry, Uncle! I didn't mean to go{n}all out...{end}"
  },
  {
   "id": "B03C",
@@ -466,7 +466,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "けど……{n}あんまりおっちゃんが{n}強いもんだから……{end}",
-  "en": "But... you were just so strong,{n}Uncle...{end}"
+  "en": "But... you were just so{n}strong, Uncle...{end}"
  },
  {
   "id": "B057",
@@ -526,7 +526,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "今度はあなたが{n}お相手なの？{end}",
-  "en": "So now you are to be my{n}opponent?{end}"
+  "en": "So now you are to be{n}my opponent?{end}"
  },
  {
   "id": "B134",
@@ -546,7 +546,7 @@
   "box": "hero",
   "heroine": "Rufu",
   "jp": "なんて熱さだ！{n}火山地帯か……{end}",
-  "en": "Man, it's hot! Volcano country,{n}huh...{end}"
+  "en": "Man, it's hot! Volcano{n}country, huh...{end}"
  },
  {
   "id": "B164",
@@ -624,7 +624,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "そしてその火の一族を{n}守護して下さる方が闘神{n}朱雀様だ！{end}",
-  "en": "And the one who protects that{n}fire clan is the war god,{n}Suzaku-sama!{end}"
+  "en": "And the one who protects{n}that fire clan is the war{n}god, Suzaku-sama!{end}"
  },
  {
   "id": "B24B",
@@ -775,7 +775,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "あっついなァー、モォ！{n}火山地帯なのかァここは……{page}シュミのお山行くのも{n}大変だなァ{end}",
-  "en": "It's sooo hot, jeez! Is this some{n}kind of volcano place...?{page}Getting to Mount Shumi sure is{n}tough...{end}"
+  "en": "It's sooo hot, jeez! Is this some{n}kind of volcano place...?{page}Getting to Mount Shumi sure{n}is tough...{end}"
  },
  {
   "id": "B436",
@@ -795,7 +795,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "ヒのイチゾクぅー？{n}スザクぅー？{n}なァにそれェー！{end}",
-  "en": "Fire claaan? Suzakuuu? Whaaat's{n}that?!{end}"
+  "en": "Fire claaan? Suzakuuu?{n}Whaaat's that?!{end}"
  },
  {
   "id": "B478",
@@ -825,7 +825,7 @@
   "box": "hero",
   "heroine": "Hamusu",
   "jp": "そんなこと{n}最初からわかってるもん！{end}",
-  "en": "I already knew that from the{n}start!{end}"
+  "en": "I already knew that from{n}the start!{end}"
  },
  {
   "id": "B4EF",
@@ -855,7 +855,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "木、土、水、そしてここからは{n}火気である火山地帯か……{end}",
-  "en": "Wood, earth, water... and from{n}here on, a volcanic land of the fire{n}element...{end}"
+  "en": "Wood, earth, water... and from{n}here on, a volcanic land of the{n}fire element...{end}"
  },
  {
   "id": "B54A",
@@ -995,7 +995,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "えっ！{n}どういうことです朱雀？{end}",
-  "en": "What?! What do you mean,{n}Suzaku?{end}"
+  "en": "What?! What do you{n}mean, Suzaku?{end}"
  },
  {
   "id": "B713",
@@ -1035,7 +1035,7 @@
   "box": "hero",
   "heroine": "Kairu",
   "jp": "朱雀！{n}もうしゃべらないで……{n}朱雀！……朱雀ゥ……！{end}",
-  "en": "Suzaku! Don't try to talk... Suzaku!{n}...Suzakuuu...!{end}"
+  "en": "Suzaku! Don't try to talk...{n}Suzaku! ...Suzakuuu...!{end}"
  },
  {
   "id": "B796",
@@ -1206,7 +1206,7 @@
   "box": "enemy",
   "heroine": "",
   "jp": "待ちなァ！{n}ここから先へは行かせないよ{end}",
-  "en": "Hold it! I won't let you go any{n}further!{end}"
+  "en": "Hold it! I won't let you go{n}any further!{end}"
  },
  {
   "id": "B97B",
@@ -1362,7 +1362,7 @@
   "box": "toutetsu",
   "heroine": "",
   "jp": "人間どもの愚かな欲望が{n}私という存在を{n}超自然の力によって生み出す{end}",
-  "en": "The foolish desire of humans brings{n}me into being through supernatural{n}power.{end}"
+  "en": "The foolish desire of humans{n}brings me into being through{n}supernatural power.{end}"
  },
  {
   "id": "BB8C",

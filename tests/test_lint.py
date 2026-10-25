@@ -27,7 +27,6 @@ def test_dialogue_lint():
         errs += batches.entry_errors(e, en, ADV, gl)
         for para in en.split("{page}"):
             lines = para.split("{n}")
-            last = batches.CODE.sub("", lines[-1]).strip()
-            if len(lines) > 1 and len(last) < batches.STUB:
-                errs.append(f"{e['id']}: stub last line {last!r}")
+            if len(lines) > 1 and batches.stub(lines[-1]):
+                errs.append(f"{e['id']}: stub last line {lines[-1]!r}")
     assert not errs, "\n".join(errs)
