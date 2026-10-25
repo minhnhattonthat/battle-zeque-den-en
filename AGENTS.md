@@ -6,7 +6,8 @@ Skill: translate-retro-game; `python tools/skill.py` prints its folder. Read its
 - Build:    `python -X utf8 tools/build.py` -> build/bzd_en.sfc (checks the dump against `rom.sha1` first; written in phase 3)
 - Check:    `python -X utf8 tools/check.py` (tests + lint; the pre-commit hook runs this)
 - Smoke:    `python -X utf8 "$(python tools/skill.py)/scripts/emu.py" build/bzd_en.sfc --out work/qa/smoke --route tools/routes/boot.txt --smoke`
-- Warp:     `python -X utf8 "$(python tools/skill.py)/scripts/emu.py" build/bzd_en.sfc --out work/qa/warp --script tools/debug/warp.lua --var "SCENE='<name>'" --frames 900 --sheet` (scenes: `tools/debug/scenes.lua`, phase 2; never ask the user to play to a scene)
+- Warp:     `python -X utf8 "$(python tools/skill.py)/scripts/emu.py" build/bzd_en.sfc --out work/qa/warp/<name> --script tools/debug/warp.lua --var "SCENE='<name>'" --frames 20000` (cold boot; shots from arrival, then stops; scenes: `tools/debug/scenes.lua`, how: `docs/re/debug.md`; never ask the user to play to a scene)
+- Warp all: `python -X utf8 tools/debug/warp_all.py [names] --rom build/bzd_en.sfc --sheet [--states]` (`--states` regenerates `work/states/<scene>.mss`; exit 1 if a scene is not reached)
 - Release:  `python -X utf8 tools/release.py` (patch + verify; never publish without the user; phase 9)
 - Clean:    `python -X utf8 tools/clean.py` (published projects: lists rebuildable/downloadable files; `--yes` deletes)
 

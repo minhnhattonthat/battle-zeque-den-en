@@ -64,6 +64,24 @@ bank $83** unless the reader is patched.
 Slot layout: three slots per scene, one per heroine (op 01 low byte 00 = 波無寿 Hamusu, 01 = 流風 Rufu, 02 = 河意留 Kairu:
 **guess** from speech style - ボク / blunt / polite); lines shared between heroines point at the same string.
 
+## Prologue: a second text system (Shift-JIS, found in phase 2)
+
+- The idle boot (no Start) plays a prologue of vertical text, ~f700-2700 (warp `prologue_title`). **verified** by
+  `snes_romreads.lua`: reader `$82:D0F9` (`LDA [$40]`, DB=$82) reads it from `$82:8D0C` (file 0x10D0C-~0x10E30),
+  inline in a sequence script (the bytes before it are that script; no pointer table found).
+- Encoding: plain Shift-JIS pairs (81xx-9Fxx); 1-byte controls: 0D newline (two = blank line between pages),
+  02/03/04 style or colour (02 before 闇, 03 normal, 04 before …), 06/07 sound (`JSL $83C2DE`), 10 pause (guess),
+  00 end (guess). 8140 (full-width space) and 8175/8176 (「」) are special-cased at `$82:D13B`.
+- Text (13 lines): いにしえの予言者は語る / この世が滅びる時 / 天空と大地を支えている / 約束は破られ / …天空は叫び /
+  …大地が応える / …人々の心は乱れ / …あらゆるところに / …争いが生まれる / …そして…… / 滅びの兆しは /
+  光と闇の / 二つの気が / 分かれることから / 始まると……
+- Its own font: SJIS lookup lists at file 0x15281 (hiragana), 0x15315 (katakana), 0x153A7 (kanji
+  天空地予言者約波破乱滅二応泥兆中争全生時持支合固形叫開世意闇河流留寿無々心人気反対大風分部純不粋虚実束像混語光水「」間始).
+  Some of those kanji (泥 固形 純粋 虚実 混 像 水 開 持) appear in no SJIS text in the ROM: other text may use this
+  font through another encoding, or they are unused. Phase 4 must extract this text and look for other callers
+  of `$82:D0F9`.
+- The dialogue font has its own SJIS order list at file 0x1A624 (matches `tbl/jp.tbl`'s glyph order).
+
 ## Free space for text (candidates, not verified)
 
 - `$83:DB7A-$83:FFFF` (file 0x1DB7A-0x1FFFF, 9,350 bytes of 00) - the only big run in bank $83. With the 5,115-byte

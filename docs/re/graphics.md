@@ -13,7 +13,7 @@ Sources: cold-boot tours of the original ROM (`work/qa/tour1`, `opt`, `ch1`; rou
 | G2 | Logo pattern in the option-screen background (バトル ZEQUE伝 + ॐ glyph) | option select | BG | dir 16 ($86:EE21), compressed | part of the logo; keep with G1 |
 | G3 | Heroine names on the select orbs: 流風 / 波無寿 / 河意留 | character select | sprites? (VRAM $0000 area) | dir 13 ($86:9B16, type 04) tile block, compressed | Rufu / Hamusu / Kairu (glossary); 2-3 kanji per orb, ~40 px wide |
 | G4 | Chapter cards: 第 / 章 + 一..六 and six titles 樹木騒擾, 地氣鳴動, 奔流喧轟, 火焔盛衰, 砂塵空漠, 天涯?束 (3rd kanji unclear: 抜/技?) | chapter intro (map + text) | BG3 (2bpp, chr $A000, map $F800 in VRAM) | dir 11 ($85:F90F, type 08) tile block at 0x2FA16, compressed | 16x16 cells; title row 4 cells (64 px) - English needs more width or a smaller font |
-| G5 | Vertical heroine names 流風 / 波無寿 / 河意留 (4bpp, large) | not seen yet (ending / profile screen?) | ? | dir 09 ($85:C16A) tile block, compressed | find the screen in phase 2 (profile scripts slots 84-86) |
+| G5 | Heroine names 流風 (horizontal) / 波無寿 / 河意留 (vertical) (4bpp, large) | prologue heroine-art screens (idle boot ~f2900-3300; warp `prologue_title`) | ? | dir 09 ($85:C16A) tile block, compressed | seen in phase 2 |
 
 ## Already English (no work)
 
@@ -45,8 +45,9 @@ LEVEL/UP effect sprites (bank $97, file 0xB8000), Asmik logo (dir 5).
 - Skipped on purpose (grey in the raw sweep): text block 0x1AA38-0x1BE33, directory blocks 0x23E5C-0x46374,
   stage-1 chain 0x78781-0x7CC39; all three are covered by decoding instead.
 
-## Not reached yet in a tour (phase 2 debug tool must reach and shoot these)
+## Reached in phase 2 (`tools/debug/scenes.lua`)
 
-Chapters 2-6 cards (tiles already in G4), ending, profile screens (text slots 84-86, maybe G5), world map
-(sound test lists WORLD MAP). The static sweep found no other Japanese graphics, so these should show only G4/G5
-and font text; confirm with shots.
+All chapter cards with the world map (G4; the 6th title reads 天涯放束 in the card shot), ending dialogue, profile
+screens (dialogue-font text over the attract demo), continue screen, staff roll, stage clear. Only G4/G5 and font
+text showed. **Missed in phase 1:** the idle-boot prologue, vertical Shift-JIS text drawn with its own font
+(`text.md` §Prologue), then G5.
