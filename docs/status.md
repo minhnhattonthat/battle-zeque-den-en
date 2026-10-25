@@ -2,7 +2,7 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 9 (release) done 2026-10-25: v1.0 zip built and verified, not published.
+- **Phase:** 9 (release) done 2026-10-25: v1.0 published (repo public, GitHub release v1.0, D9).
 - **Done (phase 1):** all in `docs/re/` (index `docs/re/README.md`), facts pinned by `tests/test_recon.py`.
   - ROM: LoROM FastROM 1.5 MB, header says 2 MB; free-space candidates listed, none trap-tested (`rom.md`).
   - Dialogue: one block in bank $83 (0x1AA38-0x1BE33, 143 strings, font-cell encoding), script VM table
@@ -99,7 +99,7 @@ Updated at the end of every session. Keep it to what the next session needs; his
     `--tbl` scan is noise (10k runs in graphics/code); font-cell text exists only in bank $83 (phases 1/4).
   - Polish pass: kept as is. "darn"/"heck" = the mild-swearing default; "Byakkooo!" matches 白虎ォーっ; the one "--"
     (B1FD) kept, since changing pixels would void the phase-8 QA gate for a Minor.
-- **Next:** nothing; the run ends here. Publishing (`gh release create`) is the owner's call.
+- **Next:** nothing; v1.0 is out. Player reports arrive as GitHub issues (`gh issue list --label bug`).
 - **After any change that alters pixels:** rebuild, re-run the tour (phase-8 command), `qa_gate.py init`, visual-QA
   the changed sheets, write the new build sha1 to `work/qa/tour.sha1`, then `tools/release.py --version 1.1`.
 - **Open bugs:** none.
