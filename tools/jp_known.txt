@@ -1,0 +1,8 @@
+0BCA5A sjis: word table (82 CA 82 CA ... pairs), not text
+124496 sjis: graphics/data bytes
+01C2D8 tbl: ASCII "SCORE" read as font cells
+01D03B tbl: bank-$83 code bytes
+01D7D8 tbl: bank-$83 code bytes
+01DAA5 tbl: ascending byte table (03 07 0B 0F 13 ... 7F), a curve
+01DABD tbl: data words after that table
+01DAD5 tbl: ascending byte table (0F 12 15 19 ...), a curve

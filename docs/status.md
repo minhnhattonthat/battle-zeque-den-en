@@ -2,7 +2,7 @@
 
 Updated at the end of every session. Keep it to what the next session needs; history is in git.
 
-- **Phase:** 8 (QA in the emulator) done 2026-10-25. Next: phase 9 (release).
+- **Phase:** 9 (release) done 2026-10-25: v1.0 zip built and verified, not published.
 - **Done (phase 1):** all in `docs/re/` (index `docs/re/README.md`), facts pinned by `tests/test_recon.py`.
   - ROM: LoROM FastROM 1.5 MB, header says 2 MB; free-space candidates listed, none trap-tested (`rom.md`).
   - Dialogue: one block in bank $83 (0x1AA38-0x1BE33, 143 strings, font-cell encoding), script VM table
@@ -90,10 +90,18 @@ Updated at the end of every session. Keep it to what the next session needs; his
     G2, kept by D5), staff roll incl. "Character Design": English.
   - New: `tools/qa_sheets.py`, `tools/lua/ppuframes.lua` (per-frame blank/brightness/CGRAM/VRAM sums). Gotcha: the
     skill's `snes_dmalog.lua` logged nothing here (IO-register writes aren't caught, as with `writes.lua`).
-- **Next (phase 9, release):** `tools/release.py` runs `qa_gate.py check` (re-run `qa_gate.py init` first: any
-  rebuild that changes pixels needs the tour + review again), `jp_left.py` on the build, debug tool off (warps are
-  Lua-only, nothing in the ROM), BPS patch made + re-applied + verified, README with base ROM hashes, zip = patch +
-  README. Polish pass from phase 6 (Genbu "darn"/"heck", B93C, B1FD) before the final build.
+- **Done (phase 9):** `tools/release.py` (build -> tests -> smoke -> `jp_left` SJIS + font-cell bank $83 ->
+  `qa_gate check` -> build sha1 == `work/qa/tour.sha1` (the toured build) -> debug off -> BPS made, re-applied to a
+  fresh read of the original, zip re-read and re-applied). All green: `release/Battle_Zeque_Den_EN_v1.0.zip` (16 KB:
+  .bps 24386 B + README.txt with base CRC32 8CAC063C / MD5 / SHA-1, patched CRC32 6B4E4534, SHA-1 185e1f70...).
+  Independently re-applied with the skill's `bps.py`: same sha1. Refuses to overwrite without `--force`.
+  - `tools/jp_known.txt`: the 8 jp_left hits, all data (ASCII "SCORE", ascending curve tables, code bytes). A whole-ROM
+    `--tbl` scan is noise (10k runs in graphics/code); font-cell text exists only in bank $83 (phases 1/4).
+  - Polish pass: kept as is. "darn"/"heck" = the mild-swearing default; "Byakkooo!" matches 白虎ォーっ; the one "--"
+    (B1FD) kept, since changing pixels would void the phase-8 QA gate for a Minor.
+- **Next:** nothing; the run ends here. Publishing (`gh release create`) is the owner's call.
+- **After any change that alters pixels:** rebuild, re-run the tour (phase-8 command), `qa_gate.py init`, visual-QA
+  the changed sheets, write the new build sha1 to `work/qa/tour.sha1`, then `tools/release.py --version 1.1`.
 - **Open bugs:** none.
 - **Notes for later phases:**
   - Regenerate states with `warp_all.py --rom build/bzd_en.sfc --states` after any code/font/graphics change.
