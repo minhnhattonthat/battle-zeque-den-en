@@ -1,0 +1,6 @@
+# Cold boot to past the title: wait out logos, press Start, settle.
+600 -
+6 start
+300 -
+6 start
+300 -
