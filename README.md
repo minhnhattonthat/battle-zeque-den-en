@@ -1,13 +1,26 @@
 # Battle Zeque Den English translation
 
 Unofficial English fan translation of **Battle Zeque Den** (バトルゼクウ伝; Super Famicom, 1994; developed by Arsys
-Software, published by Asmik): the source text and tools that build the patch. Complete: all dialogue, the prologue and the graphics text are in English.
+Software, published by Asmik): the source text and tools that build the patch. Complete: all dialogue, the prologue and the graphics text (all but the title logo) are in English.
 
 **Just want to play?** Download the patch from [Releases](../../releases) and follow its README. This repository holds
 no game data you can play; you need your own dump of the Japanese game.
 
 **Found a bug?** [Report it](../../issues/new/choose): untranslated text, typos, overflow, crashes. Attaching a savestate
 helps most.
+
+## Translation status
+
+| Part | Status |
+|---|---|
+| Dialogue / story (chapters, boss fights, endings, profiles) | Translated |
+| Opening prologue | Translated |
+| Chapter title cards, heroine names (select screen, prologue) | Translated |
+| Title logo | Left in Japanese (no official English logo) |
+| Staff roll | Translated (name spellings as credited) |
+
+Known issues (in the original game too): portraits briefly garble when the speaker changes; lightning flashes in the
+chapter-1 forest.
 
 ## What's here
 
